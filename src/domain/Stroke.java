@@ -19,6 +19,7 @@ public class Stroke implements Drawable {
     public Stroke(Color strokeColor, int strokeThickness) {
         this.strokeColor = strokeColor;
         this.strokeThickness = strokeThickness;
+        this.points = new ArrayList<Point>();
     }
 
     @Override

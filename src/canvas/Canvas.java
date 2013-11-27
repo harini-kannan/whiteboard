@@ -1,14 +1,11 @@
 package canvas;
 
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -27,15 +24,15 @@ public class Canvas extends JPanel {
     // image where the user's drawing is stored
     private Image drawingBuffer;
     private Whiteboard whiteBoard;
-    
-    
+     
     /**
      * Make a canvas.
      * @param width width in pixels
      * @param height height in pixels
      */
-    public Canvas(int width, int height) {
-        this.setPreferredSize(new Dimension(width, height));
+    public Canvas(Whiteboard whiteBoard) {
+        this.whiteBoard = whiteBoard;
+        this.setPreferredSize(new Dimension(Whiteboard.WIDTH, Whiteboard.HEIGHT));
         addDrawingController();
         // note: we can't call makeDrawingBuffer here, because it only
         // works *after* this canvas has been added to a window.  Have to
@@ -62,21 +59,8 @@ public class Canvas extends JPanel {
      */
     private void makeDrawingBuffer() {
         drawingBuffer = createImage(getWidth(), getHeight());
-        fillWithWhite();
-    }
-    
-    /*
-     * Make the drawing buffer entirely white.
-     */
-    private void fillWithWhite() {
-        final Graphics2D g = (Graphics2D) drawingBuffer.getGraphics();
-
-        g.setColor(Color.WHITE);
-        g.fillRect(0,  0,  getWidth(), getHeight());
-        
-        // IMPORTANT!  every time we draw on the internal drawing buffer, we
-        // have to notify Swing to repaint this component on the screen.
-        this.repaint();
+        Graphics2D g = (Graphics2D) drawingBuffer.getGraphics();
+        this.whiteBoard.drawTo(g);
     }
   
     
@@ -151,7 +135,8 @@ public class Canvas extends JPanel {
                 JFrame window = new JFrame("Freehand Canvas");
                 window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 window.setLayout(new BorderLayout());
-                Canvas canvas = new Canvas(800, 600);
+                Whiteboard whiteboard = new Whiteboard(1,"Test White Board");
+                Canvas canvas = new Canvas(whiteboard);
                 window.add(canvas, BorderLayout.CENTER);
                 window.pack();
                 window.setVisible(true);
