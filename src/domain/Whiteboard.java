@@ -5,8 +5,8 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 public class Whiteboard implements Drawable {
-    public final int id;
-    public final String name;
+    private final int id;
+    private final String name;
     
     public static final int WIDTH = 800;
     public static final int HEIGHT = 600;
@@ -19,6 +19,14 @@ public class Whiteboard implements Drawable {
         this.name = name;
         this.usernames = new ArrayList<String>();
         this.components = new ArrayList<Drawable>();
+    }
+    
+    public int getId() {
+        return id;
+    }
+    
+    public String getName() {
+        return name;
     }
     
     @Override
