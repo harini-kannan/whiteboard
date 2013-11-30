@@ -7,12 +7,12 @@ import java.util.ArrayList;
 public class Whiteboard implements Drawable {
     private final int id;
     private final String name;
-    
+
     public static final int WIDTH = 800;
     public static final int HEIGHT = 600;
 
-    private ArrayList<String> usernames;
-    private ArrayList<Drawable> components;
+    private final ArrayList<String> usernames;
+    private final ArrayList<Drawable> components;
 
     /**
      * 
@@ -27,11 +27,11 @@ public class Whiteboard implements Drawable {
         this.usernames = new ArrayList<String>();
         this.components = new ArrayList<Drawable>();
     }
-    
+
     public int getId() {
         return id;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -67,20 +67,20 @@ public class Whiteboard implements Drawable {
      * @param username
      *            Name of user who wants to be added to the current whiteboard.
      * 
-     * @return True if user was successfully added. False if not.
+     * 
      */
-    public boolean signInUser(String username) {
-        return usernames.add(username);
+    public void signInUser(String username) {
+        usernames.add(username);
     }
 
     /**
      * 
      * @param username
      *            Name of user who will be removed from the current whiteboard.
-     * @return True if user was successfully removed. False if not.
+     * 
      */
-    public boolean signOffUser(String username) {
-        return usernames.remove(username);
+    public void signOffUser(String username) {
+        usernames.remove(username);
     }
 
 }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Stroke implements Drawable {
     private Color strokeColor;
     private int strokeThickness;
-    private ArrayList<Point> points;
+    private final ArrayList<Point> points;
 
     /**
      * Default constructor that sets color to black and thickness to 1.
@@ -17,14 +17,15 @@ public class Stroke implements Drawable {
     public Stroke() {
         this.strokeColor = Color.BLACK;
         this.strokeThickness = 1;
+        points = new ArrayList<Point>();
     }
 
     /**
      * 
      * @param strokeColor
-     *            Color object representing the desired color.
+     *            Desired Color
      * @param strokeThickness
-     *            integer representing the desired thickness.
+     *            Desired thickness
      */
     public Stroke(Color strokeColor, int strokeThickness) {
         this.strokeColor = strokeColor;
@@ -38,11 +39,11 @@ public class Stroke implements Drawable {
      */
     @Override
     public void drawTo(Graphics2D graphics) {
+        graphics.setColor(this.strokeColor);
+        graphics.setStroke(new BasicStroke(this.strokeThickness));
         for (int i = 0; i < points.size() - 1; ++i) {
             Point pointFrom = this.points.get(i);
             Point pointTo = this.points.get(i + 1);
-            graphics.setColor(this.strokeColor);
-            graphics.setStroke(new BasicStroke(this.strokeThickness));
             graphics.drawLine(pointFrom.x, pointFrom.y, pointTo.x, pointTo.y);
         }
     }
@@ -53,10 +54,10 @@ public class Stroke implements Drawable {
      *            The x-coordinate of the point to add.
      * @param y
      *            The y-coordinate of the point to add.
-     * @return True if the point was able to be added, False if not.
+     * 
      */
-    public boolean addPoint(int x, int y) {
-        return points.add(new Point(x, y));
+    public void addPoint(int x, int y) {
+        points.add(new Point(x, y));
     }
 
 }
