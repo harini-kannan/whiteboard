@@ -1,0 +1,28 @@
+SERVER ARCHITECTURE
+-------------------
+
+The main benefit of the current architecture is that the layers are strongly decoupled, which makes testing much easier (i.e., you don't have to open sockets for all of your unit tests).
+
+Also note that while these items ARE threadsafe, they do not have to be run in parallel. All of the queueing operations can be run serially (for each class, run all items in the queue). This, again, makes testing much easier.
+
+Packages:
+    server -- server state objects + main code
+    server.messaging -- handles message passing between 
+    server.requesthandlers -- state machine that parses requests
+
+Workflow:
+    1) ClientHandler runs on its own thread, constantly polling its socket and its queue
+    2) When it finds input on the socket, it sends it to the current request handler
+    3) This parses the action and sends a message to the message bus
+        The Login handler is special in that it avoids the message bus
+        This is because don't consider a client "connected" until it has a username
+    4) The message bus (threadsafely) adds the message to the desired receipient's queue
+        This is some server state object, e.g., ServerWhiteboard
+    5) The server state acts and sends a response on the message bus
+    6) The message bus adds this to the client's queue (and perhaps other clients' queues as well)
+    7) The client notices a message on its queue and sends it over the socket
+
+
+In graphical form:
+   ClientHandler  -->  RequestHandler  -->  MessageBus  -->   Server State    --> MessageBus -->  ClientHandler(s) --> Socket
+      Socket              (Parser)                           e.g. Whiteboard                           Queue

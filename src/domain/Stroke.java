@@ -11,22 +11,12 @@ public class Stroke implements Drawable {
     private int strokeThickness;
     private final ArrayList<Point> points;
 
-    /**
-     * Default constructor that sets color to black and thickness to 1.
-     */
     public Stroke() {
         this.strokeColor = Color.BLACK;
         this.strokeThickness = 1;
         points = new ArrayList<Point>();
     }
 
-    /**
-     * 
-     * @param strokeColor
-     *            Desired Color
-     * @param strokeThickness
-     *            Desired thickness
-     */
     public Stroke(Color strokeColor, int strokeThickness) {
         this.strokeColor = strokeColor;
         this.strokeThickness = strokeThickness;
@@ -41,6 +31,7 @@ public class Stroke implements Drawable {
     public void drawTo(Graphics2D graphics) {
         graphics.setColor(this.strokeColor);
         graphics.setStroke(new BasicStroke(this.strokeThickness));
+        
         for (int i = 0; i < points.size() - 1; ++i) {
             Point pointFrom = this.points.get(i);
             Point pointTo = this.points.get(i + 1);
@@ -48,16 +39,32 @@ public class Stroke implements Drawable {
         }
     }
 
-    /**
-     * 
-     * @param x
-     *            The x-coordinate of the point to add.
-     * @param y
-     *            The y-coordinate of the point to add.
-     * 
-     */
     public void addPoint(int x, int y) {
-        points.add(new Point(x, y));
+        addPoint(new Point(x, y));
+    }
+    
+    public void addPoint(Point point) {
+        points.add(point);
     }
 
+    @Override
+    public String encode() {
+        StringBuilder builder = new StringBuilder("DRAW STROKE ")
+            .append(encodeColor());
+        
+        for (Point point : points)
+            builder.append(encodePoint(point));
+        
+        return builder.toString();
+    }
+    
+    private String encodeColor() {
+        // TODO(ddoucet): what does this actually return?
+        // we need to get some constraints on the values of strokeColor
+        return strokeColor.toString().toUpperCase();
+    }
+    
+    private String encodePoint(Point point) {
+        return String.format("%d,%d", point.x, point.y);
+    }
 }
