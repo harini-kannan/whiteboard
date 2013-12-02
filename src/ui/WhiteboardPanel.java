@@ -1,37 +1,43 @@
-package canvas;
+package ui;
 
-import java.awt.BorderLayout;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
+import domain.Stroke;
 import domain.Whiteboard;
 
 /**
- * Canvas represents a drawing surface that allows the user to draw
+ * WhiteboardPanel represents a drawing surface that allows the user to draw
  * on it freehand, with the mouse.
  */
-public class Canvas extends JPanel {
+public class WhiteboardPanel extends JPanel {
+    private static final long serialVersionUID = 1L;
+    
     // image where the user's drawing is stored
     private Image drawingBuffer;
     private Whiteboard whiteBoard;
+    private Color drawColor;
+    private int drawThickness = 1;
      
     /**
      * Make a canvas.
      * @param width width in pixels
      * @param height height in pixels
      */
-    public Canvas(Whiteboard whiteBoard) {
+    public WhiteboardPanel(Whiteboard whiteBoard) {
         this.whiteBoard = whiteBoard;
+        this.drawColor = Color.BLACK;
         this.setPreferredSize(new Dimension(Whiteboard.WIDTH, Whiteboard.HEIGHT));
         addDrawingController();
         // note: we can't call makeDrawingBuffer here, because it only
@@ -54,6 +60,14 @@ public class Canvas extends JPanel {
         g.drawImage(drawingBuffer, 0, 0, null);
     }
     
+    public void setDrawColor(Color color) {
+        this.drawColor = color;
+    }
+    
+    public void setDrawThickness(int thickness) {
+        this.drawThickness = thickness;
+    }
+    
     /*
      * Make the drawing buffer and draw some starting content for it.
      */
@@ -71,7 +85,8 @@ public class Canvas extends JPanel {
     private void drawLineSegment(int x1, int y1, int x2, int y2) {
         Graphics2D g = (Graphics2D) drawingBuffer.getGraphics();
         
-        g.setColor(Color.BLACK);
+        g.setColor(this.drawColor);
+        g.setStroke(new BasicStroke(this.drawThickness));
         g.drawLine(x1, y1, x2, y2);
         
         // IMPORTANT!  every time we draw on the internal drawing buffer, we
@@ -95,6 +110,7 @@ public class Canvas extends JPanel {
         // store the coordinates of the last mouse event, so we can
         // draw a line segment from that last point to the point of the next mouse event.
         private int lastX, lastY; 
+        private ArrayList<Point> points;
 
         /*
          * When mouse button is pressed down, start drawing.
@@ -102,6 +118,8 @@ public class Canvas extends JPanel {
         public void mousePressed(MouseEvent e) {
             lastX = e.getX();
             lastY = e.getY();
+            points = new ArrayList<Point>();
+            points.add(new Point(lastX, lastY));
         }
 
         /*
@@ -112,35 +130,23 @@ public class Canvas extends JPanel {
             int x = e.getX();
             int y = e.getY();
             drawLineSegment(lastX, lastY, x, y);
+            points.add(new Point(x, y));
             lastX = x;
             lastY = y;
+        }
+        
+        public void mouseReleased(MouseEvent e) { 
+            Stroke newStroke = new Stroke(drawColor, drawThickness);
+            for (Point p : points) {
+                newStroke.addPoint(p);
+            }
+            whiteBoard.addDrawable(newStroke);
         }
 
         // Ignore all these other mouse events.
         public void mouseMoved(MouseEvent e) { }
         public void mouseClicked(MouseEvent e) { }
-        public void mouseReleased(MouseEvent e) { }
         public void mouseEntered(MouseEvent e) { }
         public void mouseExited(MouseEvent e) { }
-    }
-    
-    
-    /*
-     * Main program. Make a window containing a Canvas.
-     */
-    public static void main(String[] args) {
-        // set up the UI (on the event-handling thread)
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                JFrame window = new JFrame("Freehand Canvas");
-                window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                window.setLayout(new BorderLayout());
-                Whiteboard whiteboard = new Whiteboard(1,"Test White Board");
-                Canvas canvas = new Canvas(whiteboard);
-                window.add(canvas, BorderLayout.CENTER);
-                window.pack();
-                window.setVisible(true);
-            }
-        });
     }
 }
