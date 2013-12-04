@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import ui.client.WhiteboardClientDelegate;
+import domain.Drawable;
 import domain.Stroke;
 import domain.Whiteboard;
 
@@ -21,7 +23,7 @@ import domain.Whiteboard;
  * WhiteboardPanel represents a drawing surface that allows the user to draw
  * on it freehand, with the mouse.
  */
-public class WhiteboardPanel extends JPanel {
+public class WhiteboardPanel extends JPanel implements WhiteboardClientDelegate {
     private static final long serialVersionUID = 1L;
     
     // image where the user's drawing is stored
@@ -66,6 +68,18 @@ public class WhiteboardPanel extends JPanel {
     
     public void setDrawThickness(int thickness) {
         this.drawThickness = thickness;
+    }
+    
+    public void addDrawableToWhiteBoard(Drawable d) {
+        
+    }
+    
+    public void signOnUser(String username) {
+        
+    }
+    
+    public void signOffUser(String username) {
+        
     }
     
     /*
