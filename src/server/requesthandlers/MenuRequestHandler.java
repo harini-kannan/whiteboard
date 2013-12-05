@@ -76,7 +76,7 @@ public class MenuRequestHandler implements RequestHandler {
     }
     
     private void joinBoard(Integer whiteboardId) {
-        clientHandler.changeState(
+        clientHandler.setCurrentRequestHandler(
             new DrawingRequestHandler(messageBus, clientHandler, whiteboardId));
     }
     

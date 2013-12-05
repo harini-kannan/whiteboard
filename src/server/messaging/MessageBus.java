@@ -44,18 +44,21 @@ public class MessageBus {
         }
     }
     
-    public void subscribeToWhiteboard(Integer whiteboardId, ServerWhiteboard queue) {
+    public void subscribeWhiteboard(ServerWhiteboard whiteboard) {
         synchronized(whiteboards) {
-            if (!whiteboards.containsKey(whiteboardId))
-                whiteboards.put(whiteboardId, new ActionQueueList<ServerWhiteboard>());
+            if (!whiteboards.containsKey(whiteboard.getId()))
+                whiteboards.put(whiteboard.getId(), new ActionQueueList<ServerWhiteboard>());
             
-            whiteboards.get(whiteboardId).subscribe(queue);
+            whiteboards.get(whiteboard.getId()).subscribe(whiteboard);
         }
     }
     
     public void publishToWhiteboard(Integer whiteboardId, Action<ServerWhiteboard> action) {
         synchronized(whiteboards) {
-            whiteboards.get(whiteboardId).publish(action);
+            ActionQueueList<ServerWhiteboard> whiteboardList = whiteboards.get(whiteboardId);
+            
+            if (whiteboardList != null)
+                whiteboardList.publish(action);
         }
     }
     
@@ -65,12 +68,12 @@ public class MessageBus {
         }
     }
     
-    public void subscribeToClient(String clientNickname, ClientHandler queue) {
+    public void subscribeClient(ClientHandler client) {
         synchronized(clients) {
-            if (!clients.containsKey(clientNickname))
-                clients.put(clientNickname, new ActionQueueList<ClientHandler>());
+            if (!clients.containsKey(client.getNickname()))
+                clients.put(client.getNickname(), new ActionQueueList<ClientHandler>());
             
-            clients.get(clientNickname).subscribe(queue);
+            clients.get(client.getNickname()).subscribe(client);
         }
     }
     

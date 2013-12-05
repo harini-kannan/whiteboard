@@ -15,7 +15,7 @@ public class ServerWhiteboardFactory {
     public ServerWhiteboard create(String name) {
         final ServerWhiteboard board = instantiateWhiteboard(name);
         
-        messageBus.subscribeToWhiteboard(board.getId(), board);
+        messageBus.subscribeWhiteboard(board);
         messageBus.publishToMenu(new Action<ServerMenu>() {
             @Override
             public void perform(ServerMenu menu) {

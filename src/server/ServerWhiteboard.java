@@ -14,7 +14,6 @@ public class ServerWhiteboard extends ClientLobby implements ActionQueue<ServerW
     private final ConcurrentLinkedQueue<Action<ServerWhiteboard>> actions;
 
     public ServerWhiteboard(Integer id, String name) {
-        super();
         whiteboard = new Whiteboard(id, name);
         actions = new ConcurrentLinkedQueue<>();
     }
@@ -49,5 +48,9 @@ public class ServerWhiteboard extends ClientLobby implements ActionQueue<ServerW
         Action<ServerWhiteboard> action = null;
         while ((action = actions.poll()) != null)
             action.perform(this);
+    }
+    
+    int pendingActionsCount() {
+        return actions.size();
     }
 }

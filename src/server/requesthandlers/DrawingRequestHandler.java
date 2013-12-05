@@ -61,7 +61,7 @@ public class DrawingRequestHandler implements RequestHandler {
     }
     
     private void returnToMenu() {
-        clientHandler.changeState(
+        clientHandler.setCurrentRequestHandler(
             new MenuRequestHandler(messageBus, clientHandler));
     }
     
@@ -71,7 +71,10 @@ public class DrawingRequestHandler implements RequestHandler {
             public void perform(ServerWhiteboard whiteboard) {
                 whiteboard.addClient(clientHandler.getNickname());
                 
-                String message = "LEAVE " + clientHandler.getNickname();
+                for (Drawable drawable : whiteboard.getDrawables())
+                    messageBus.publishToClient(clientHandler.getNickname(), drawable.encode());
+                
+                String message = "JOIN " + clientHandler.getNickname();
                 whiteboard.publishToClients(messageBus, message);
             }
         });
@@ -83,7 +86,7 @@ public class DrawingRequestHandler implements RequestHandler {
             public void perform(ServerWhiteboard whiteboard) {
                 whiteboard.removeClient(clientHandler.getNickname());
 
-                String message = "JOIN " + clientHandler.getNickname();
+                String message = "LEAVE " + clientHandler.getNickname();
                 whiteboard.publishToClients(messageBus, message);
             }
         });
