@@ -23,6 +23,7 @@ public class StrokeTests {
         DrawableParser parser = new DrawableParser();
         
         assertEquals(parser.parse(createRequest(request)), stroke);
+        assertEquals(request, stroke.encode().toLowerCase());
     }
     
     private void assertRequestFails(String request) {

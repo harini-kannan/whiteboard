@@ -83,9 +83,15 @@ public class Stroke implements Drawable {
     }
     
     private String encodeColor() {
-        // TODO(ddoucet): what does this actually return?
-        // we need to get some constraints on the values of strokeColor
-        return strokeColor.toString().toUpperCase();
+        // TODO(ddoucet): yuck...
+        if (strokeColor.equals(Color.black))
+            return "BLACK";
+        else if (strokeColor.equals(Color.white))
+            return "WHITE";
+        
+        throw new IllegalArgumentException(
+            String.format("Invalid color in stroke: %s was not black or white", 
+                strokeColor.toString()));
     }
     
     private String encodePoint(Point point) {
