@@ -2,6 +2,7 @@ package ui;
 
 import javax.swing.SwingUtilities;
 
+import ui.client.WhiteboardClient;
 import domain.Whiteboard;
 
 public class Main {
@@ -13,9 +14,8 @@ public class Main {
         // set up the UI (on the event-handling thread)
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                Whiteboard whiteboard = new Whiteboard(1,"Test White Board");
-                WhiteboardGUI whiteboardGUI = new WhiteboardGUI(whiteboard);
-                whiteboardGUI.setVisible(true);
+                MenuGUI menuGUI = new MenuGUI();
+                menuGUI.setVisible(true);
             }
         });
     }

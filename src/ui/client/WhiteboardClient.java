@@ -1,8 +1,9 @@
 package ui.client;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import domain.Drawable;
+import domain.Whiteboard;
 
 public class WhiteboardClient {
     private WhiteboardClientDelegate clientDelegate;
@@ -16,19 +17,21 @@ public class WhiteboardClient {
     }
     
     public boolean loginUser(String userName) {
-        return false; //Return false if the username is already in use
+        return true; //Return false if the username is already in use
     }
     
-    public HashMap<Integer,String> getMenu() {
-        return null;
+    public ArrayList<WhiteboardMenuItem> getMenu() {
+        ArrayList<WhiteboardMenuItem> testReturn = new ArrayList<WhiteboardMenuItem>();
+        testReturn.add(new WhiteboardMenuItem(1,"Hello"));
+        return testReturn;
     }
     
     public int createBoard(String boardName) {
         return 0; //Returns the boardID of the created board
     }
     
-    public void joinBoard(int boardID) {
-        
+    public Whiteboard joinBoard(int boardID) {
+        return new Whiteboard(boardID, "Hello");
     }
     
     public void addDrawableToServerBoard(Drawable d) {
@@ -38,6 +41,10 @@ public class WhiteboardClient {
     public void leaveBoard() {
         
     }
+    
+    //TODO: Call clientDelegate.addDrawableToWhiteBoard(Drawable d);
+    //TODO: Call clientDelegate.signOnUser(String username);
+    //TODO: Call clientDelegate.signOffUser(String username);
     
     
 }
