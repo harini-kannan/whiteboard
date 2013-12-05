@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Stroke implements Drawable {
     private Color strokeColor;
-    private int strokeThickness;
+    private Integer strokeThickness;
     private final ArrayList<Point> points;
 
     public Stroke() {
@@ -17,10 +17,30 @@ public class Stroke implements Drawable {
         points = new ArrayList<Point>();
     }
 
-    public Stroke(Color strokeColor, int strokeThickness) {
+    public Stroke(Color strokeColor, Integer strokeThickness) {
         this.strokeColor = strokeColor;
         this.strokeThickness = strokeThickness;
         this.points = new ArrayList<Point>();
+    }
+    
+    @Override
+    public boolean equals(Object rhs) {
+        if (!(rhs instanceof Stroke))
+            return false;
+        return equals((Stroke)rhs);
+    }
+    
+    public boolean equals(Stroke rhs) {
+        return strokeColor.equals(rhs.strokeColor) &&
+            strokeThickness.equals(rhs.strokeThickness) &&
+            points.equals(rhs.points);
+    }
+    
+    @Override
+    public int hashCode() {
+        return strokeColor.hashCode() * 1109 * 1109 +
+            strokeThickness.hashCode() * 1109 +
+            points.hashCode();
     }
 
     /**
@@ -50,10 +70,14 @@ public class Stroke implements Drawable {
     @Override
     public String encode() {
         StringBuilder builder = new StringBuilder("DRAW STROKE ")
-            .append(encodeColor());
+            .append(encodeColor())
+            .append(" ")
+            .append(strokeThickness);
         
         for (Point point : points)
-            builder.append(encodePoint(point));
+            builder
+                .append(" ")
+                .append(encodePoint(point));
         
         return builder.toString();
     }
