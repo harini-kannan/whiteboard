@@ -74,6 +74,7 @@ public class WhiteboardPanel extends JPanel {
         drawingBuffer = createImage(getWidth(), getHeight());
         Graphics2D g = (Graphics2D) drawingBuffer.getGraphics();
         whiteBoard.addDrawable(d);
+        //TODO: Send stroke to server
         d.drawTo(g);
         this.repaint();
     }

@@ -100,11 +100,13 @@ public class WhiteboardGUI extends JFrame implements WhiteboardClientDelegate {
     }
     
     public void signOnUser(String username) {
-        
+        DefaultListModel<String> listModel = (DefaultListModel<String>) this.userList.getModel();
+        listModel.addElement(username);
     }
     
     public void signOffUser(String username) {
-        
+        DefaultListModel<String> listModel = (DefaultListModel<String>) this.userList.getModel();
+        listModel.removeElement(username);
     }
 
 }
