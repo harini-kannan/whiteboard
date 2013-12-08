@@ -70,7 +70,7 @@ public class ClientSocket implements Runnable {
         messages.add("MAKE " + boardName + "\n");
     }
 
-    public void sendJoin(String boardID) {
+    public void sendJoin(int boardID) {
         messages.add("JOIN " + boardID + "\n");
     }
 

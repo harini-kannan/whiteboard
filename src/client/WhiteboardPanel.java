@@ -1,4 +1,4 @@
-package ui;
+package client;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import client.networking.ClientSocket;
-import ui.client.WhiteboardClient;
-import ui.client.WhiteboardClientDelegate;
 import domain.Drawable;
 import domain.Stroke;
 import domain.Whiteboard;

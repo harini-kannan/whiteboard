@@ -1,4 +1,4 @@
-package ui.client;
+package client;
 
 /**
  * WhiteboardMenuItem is a data encapsulation object for listing whiteboards

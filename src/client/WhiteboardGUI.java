@@ -1,11 +1,9 @@
- package ui;
+ package client;
 
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
@@ -17,8 +15,6 @@ import javax.swing.JRadioButton;
 import client.networking.ClientSocket;
 import client.networking.DrawingDelegate;
 import client.networking.DrawingRequestHandler;
-import ui.client.WhiteboardClient;
-import ui.client.WhiteboardClientDelegate;
 import domain.Drawable;
 import domain.Whiteboard;
 

@@ -25,6 +25,14 @@ public class Whiteboard {
         this.components = new ArrayList<>();
     }
     
+    public Whiteboard(String name) {
+        this.id = 0;
+        this.name = name;
+        this.usernames = new ArrayList<>();
+        this.components = new ArrayList<>();
+    }
+    
+    
     /**
      * The Whiteboard draws itself and each of its components in turn.
      * 
