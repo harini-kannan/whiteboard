@@ -55,8 +55,10 @@ public class MenuRequestHandler implements RequestHandler {
         Integer boardId = tryParse(request[1]);
         
         if (boardId == null ||  // not an integer
-                !messageBus.hasWhiteboardId(boardId))
+                !messageBus.hasWhiteboardId(boardId)) {
+            clientHandler.addMessage("BADID");
             return;
+        }
         
         joinBoard(boardId);
     }
@@ -68,9 +70,9 @@ public class MenuRequestHandler implements RequestHandler {
         // TODO(ddoucet): validate board name? 
         
         ServerWhiteboard whiteboard = 
-                messageBus
-                    .getWhiteboardFactory()
-                    .create(request[1]);
+            messageBus
+                .getWhiteboardFactory()
+                .create(request[1]);
         
         joinBoard(whiteboard.getId());
     }

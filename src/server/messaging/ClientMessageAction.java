@@ -12,6 +12,6 @@ public class ClientMessageAction implements Action<ClientHandler> {
     
     @Override
     public void perform(ClientHandler t) {
-        t.addMessage(message + System.lineSeparator());
+        t.addMessage(message);
     }
 }
