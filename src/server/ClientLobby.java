@@ -19,6 +19,10 @@ public class ClientLobby {
         connectedClientUsernames.remove(clientNickname);
     }
     
+    public List<String> getClientUsernames() {
+        return new ArrayList<>(connectedClientUsernames);
+    }
+    
     public void publishToClients(MessageBus messageBus, String message) {
         for (String client : connectedClientUsernames)
             messageBus.publishToClient(client, message);

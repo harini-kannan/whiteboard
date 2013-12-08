@@ -33,6 +33,7 @@ public class MenuRequestHandler implements RequestHandler {
             requestJoin(split);
             break;
         default:
+            clientHandler.log("Didn't know how to parse " + request);
             // TODO(ddoucet): should probably tell them they fucked up?
             return;
         }
@@ -49,13 +50,16 @@ public class MenuRequestHandler implements RequestHandler {
     }
     
     private void requestJoin(String[] request) {
-        if (request.length != 2)
+        if (request.length != 2) {
+            clientHandler.log("Invalid request length for join");
             return;  // TODO(ddoucet)
+        }
         
         Integer boardId = tryParse(request[1]);
         
         if (boardId == null ||  // not an integer
                 !messageBus.hasWhiteboardId(boardId)) {
+            clientHandler.log("Bad id: " + request[1]);
             clientHandler.addMessage("BADID");
             return;
         }
@@ -64,8 +68,10 @@ public class MenuRequestHandler implements RequestHandler {
     }
     
     private void requestMake(String[] request) {
-        if (request.length != 2)
+        if (request.length != 2) {
+            clientHandler.log("Invalid request length for make");
             return;  // TODO(ddoucet)
+        }
         
         // TODO(ddoucet): validate board name? 
         
@@ -78,19 +84,23 @@ public class MenuRequestHandler implements RequestHandler {
     }
     
     private void joinBoard(Integer whiteboardId) {
+        clientHandler.log("Joining board " + whiteboardId.toString());
+        
         clientHandler.setCurrentRequestHandler(
             new DrawingRequestHandler(messageBus, clientHandler, whiteboardId));
     }
     
     public void onEnter() {
-        requestMenuList();
-        
         messageBus.publishToMenu(new Action<ServerMenu>() {
             @Override
             public void perform(ServerMenu t) {
                 t.addClient(clientHandler.getNickname());
             }
         });
+
+        clientHandler.log("Entered menu request handler");
+        requestMenuList();
+        clientHandler.log("Sent menu list");
     }
     
     public void onLeave() {

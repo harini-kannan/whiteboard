@@ -25,11 +25,14 @@ public class LoginRequestHandler implements RequestHandler {
     public void handle(String request) {
         String[] split = request.toLowerCase().split(" ");
         
-        if (!isValid(split))
+        if (!isValid(split)) {
+            clientHandler.log("Invalid request: " + request);
             return;
+        }
         
         clientHandler.setNickname(split[1]);
         messageBus.subscribeClient(clientHandler);
+        clientHandler.log("Set nickname to " + clientHandler.getNickname());
         
         clientHandler.setCurrentRequestHandler(new MenuRequestHandler(messageBus, clientHandler));
     }
@@ -41,15 +44,18 @@ public class LoginRequestHandler implements RequestHandler {
             return false;
         
         if (!request[0].equals("nick") || request.length != 2) {
+            clientHandler.log("Didn't specify nickname");
             clientHandler.addMessage(SPECIFY_NICK);
             return false;
         }
         
         if (messageBus.hasClientNickname(request[1])) {
+            clientHandler.log("Using the nickname already");
             clientHandler.addMessage(NICK_IN_USE);
             return false;
         }
         
+        clientHandler.log("Valid nickname");
         return true;
     }
 }

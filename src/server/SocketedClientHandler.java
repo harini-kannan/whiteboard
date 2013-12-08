@@ -7,14 +7,15 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import server.requesthandlers.*;
+import server.logging.ThreadsafeLogger;
 import server.messaging.*;
 
 public class SocketedClientHandler extends ClientHandler implements Runnable {
     private final Socket socket;
     private boolean shouldExit;
     
-    public SocketedClientHandler(MessageBus messageBus, Socket socket) {
-        super();
+    public SocketedClientHandler(Integer clientId, ThreadsafeLogger logger, MessageBus messageBus, Socket socket) {
+        super(clientId, logger);
         
         this.shouldExit = false;
         this.socket = socket;

@@ -2,6 +2,7 @@ package server;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import server.logging.ThreadsafeLogger;
 import server.messaging.Action;
 import server.messaging.ActionQueue;
 import server.requesthandlers.RequestHandler;
@@ -9,11 +10,19 @@ import server.requesthandlers.RequestHandler;
 public class ClientHandler implements ActionQueue<ClientHandler> {
     private String nickname;
     
-    protected ConcurrentLinkedQueue<String> messages;
+    protected final Integer clientId;
+    protected final ThreadsafeLogger logger;
+    protected final ConcurrentLinkedQueue<String> messages;
     protected RequestHandler currentHandler;
     
-    public ClientHandler() {
+    public ClientHandler(Integer clientId, ThreadsafeLogger logger) {
+        this.clientId = clientId;
+        this.logger = logger;
         messages = new ConcurrentLinkedQueue<>();
+    }
+    
+    public void log(String string) {
+        logger.writeLine(clientId.toString(), string);
     }
     
     @Override
@@ -37,6 +46,7 @@ public class ClientHandler implements ActionQueue<ClientHandler> {
         if (currentHandler != null)
             currentHandler.onLeave();
         
+        log("Changed request handler");
         currentHandler = to;
         to.onEnter();
     }

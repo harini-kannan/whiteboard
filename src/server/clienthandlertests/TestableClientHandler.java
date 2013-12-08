@@ -7,7 +7,7 @@ import server.requesthandlers.RequestHandler;
 
 public class TestableClientHandler extends ClientHandler {
     public TestableClientHandler() {
-        super();
+        super(0, null);  // not a client, no logger
     }
 
     public RequestHandler getCurrentRequestHandler() {
