@@ -2,6 +2,7 @@ package server;
 
 import org.junit.Test;
 
+import server.clienthandlertests.TestableClientHandler;
 import server.messaging.*;
 import static org.junit.Assert.*;
 
@@ -69,7 +70,7 @@ public class MessageBusTests {
     public void hasClientKeyTest() {
         MessageBus messageBus = new MessageBus();
         
-        ClientHandler clientHandler = new SocketedClientHandler(messageBus, null);  // no socket
+        ClientHandler clientHandler = new TestableClientHandler();
         clientHandler.setNickname("nickname");
         
         messageBus.subscribeClient(clientHandler);

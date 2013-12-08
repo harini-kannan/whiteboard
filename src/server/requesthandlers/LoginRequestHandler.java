@@ -4,8 +4,8 @@ import server.messaging.*;
 import server.ClientHandler;
 
 public class LoginRequestHandler implements RequestHandler {
-    private final static String SPECIFY_NICK = "SPECIFYNICK" + System.lineSeparator();
-    private final static String NICK_IN_USE = "NICKINUSE" + System.lineSeparator();
+    private final static String SPECIFY_NICK = "SPECIFYNICK";
+    private final static String NICK_IN_USE = "NICKINUSE";
     
     private final MessageBus messageBus;
     private final ClientHandler clientHandler;

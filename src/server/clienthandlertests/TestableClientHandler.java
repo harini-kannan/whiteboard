@@ -1,7 +1,8 @@
-package server;
+package server.clienthandlertests;
 
 import java.util.*;
 
+import server.ClientHandler;
 import server.requesthandlers.RequestHandler;
 
 public class TestableClientHandler extends ClientHandler {

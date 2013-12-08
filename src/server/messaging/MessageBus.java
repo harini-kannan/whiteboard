@@ -79,8 +79,10 @@ public class MessageBus {
     
     public void publishToClient(String clientNickname, String message) {
         synchronized(clients) {
-            clients.get(clientNickname)
-                .publish(new ClientMessageAction(message));
+            ActionQueueList<ClientHandler> clientList = clients.get(clientNickname);
+            
+            if (clientList != null)
+                clientList.publish(new ClientMessageAction(message));
         }
     }
 }
