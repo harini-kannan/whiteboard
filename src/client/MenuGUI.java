@@ -17,6 +17,12 @@ import client.networking.MenuDelegate;
 import client.networking.MenuRequestHandler;
 import domain.Whiteboard;
 
+/**
+ * MenuGUI is the second level to the Whiteboard interface. It shows a dialog
+ * with a menu of all the whiteboards the user can join and allows the user
+ * to create a new whiteboard on the server.
+ *
+ */
 public class MenuGUI extends JFrame implements MenuDelegate {
     private static final long serialVersionUID = 1L;
     
@@ -86,6 +92,10 @@ public class MenuGUI extends JFrame implements MenuDelegate {
                 
     }
     
+    /**
+     * Requests the server to create a new whiteboard and instantiates
+     * an shows a new Whiteboard interface
+     */
     public void createNewBoard() {
         String boardName = JOptionPane.showInputDialog("What would you like to name your whiteboard?");
         this.clientSocket.sendMake(boardName);
@@ -94,6 +104,10 @@ public class MenuGUI extends JFrame implements MenuDelegate {
         whiteboardGUI.setVisible(true); 
     }
     
+    /**
+     * Requests the socket to join a whiteboard and instantiates and shows
+     * a new Whiteboard interface
+     */
     public void joinBoard() {
         WhiteboardMenuItem selectedBoard = this.menuList.getItemAt(this.menuList.getSelectedIndex());
         this.clientSocket.sendJoin(selectedBoard.getID());

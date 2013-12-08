@@ -13,7 +13,9 @@ import javax.swing.SwingUtilities;
 public class Main {
 
     /*
-     * Main program. Make a window containing a WhiteboardPanel.
+     * Main client program for Whiteboard GUI.
+     * 
+     * Usage: Main.java [--debug] [--port PORT] [--host HOSTNAME]
      */
     public static void main(String[] args) {
         int port = 4444; // default port

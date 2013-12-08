@@ -8,6 +8,12 @@ import client.networking.ClientSocket;
 import client.networking.LoginDelegate;
 import client.networking.LoginRequestHandler;
 
+/**
+ * LoginGUI is the entry-point to the Whiteboard interface. It shows a dialog
+ * requesting for the user to enter a nickname and then will only show 
+ * the menu interface if the nickname is valid.
+ *
+ */
 public class LoginGUI implements LoginDelegate {
     
     private ClientSocket clientSocket;
@@ -17,6 +23,9 @@ public class LoginGUI implements LoginDelegate {
         this.clientSocket.switchHandler(new LoginRequestHandler(this));
     }
     
+    /**
+     * Requests the user to input their nickname.
+     */
     public void requestLogin() {
         String username = null;
         
