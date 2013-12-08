@@ -29,7 +29,7 @@ public class DrawableParser {
         Color color = parseColor(request[2]);
         Integer thickness = tryParse(request[3]);
         
-        if (color == null || thickness == null)
+        if (color == null || thickness == null || thickness < 0)
             return null;
         
         Stroke ret = new Stroke(color, thickness);
@@ -63,6 +63,9 @@ public class DrawableParser {
         if (split.length != 2 ||
                 (x = tryParse(split[0])) == null ||
                 (y = tryParse(split[1])) == null)
+            return null;
+        
+        if (x < 0 || y < 0)
             return null;
         
         return new Point(x, y);

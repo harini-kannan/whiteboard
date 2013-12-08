@@ -12,7 +12,6 @@ public class ServerMenu extends ClientLobby implements ActionQueue<ServerMenu> {
     private final ConcurrentLinkedQueue<Action<ServerMenu>> actions;
     
     public ServerMenu() {
-        super();
         whiteboards = new ArrayList<>();
         actions = new ConcurrentLinkedQueue<>();
     }
@@ -34,5 +33,9 @@ public class ServerMenu extends ClientLobby implements ActionQueue<ServerMenu> {
         Action<ServerMenu> action = null;
         while ((action = actions.poll()) != null)
             action.perform(this);
+    }
+    
+    int pendingActionsCount() {
+        return actions.size();
     }
 }

@@ -28,9 +28,10 @@ public class LoginRequestHandler implements RequestHandler {
         if (!isValid(split))
             return;
         
-        messageBus.subscribeToClient(split[1], clientHandler);
+        clientHandler.setNickname(split[1]);
+        messageBus.subscribeClient(clientHandler);
         
-        clientHandler.changeState(new MenuRequestHandler(messageBus, clientHandler));
+        clientHandler.setCurrentRequestHandler(new MenuRequestHandler(messageBus, clientHandler));
     }
     
     // returns whether the request is valid or not

@@ -34,7 +34,11 @@ public class ClientHandler implements Runnable, ActionQueue<ClientHandler> {
         this.nickname = nickname;
     }
     
-    public void changeState(RequestHandler to) {
+    public RequestHandler getCurrentRequestHandler() {
+        return currentHandler;
+    }
+    
+    public void setCurrentRequestHandler(RequestHandler to) {
         currentHandler.onLeave();
         
         currentHandler = to;
@@ -43,6 +47,13 @@ public class ClientHandler implements Runnable, ActionQueue<ClientHandler> {
     
     public void addMessage(String message) {
         messages.add(message);
+    }
+    
+    // this is used for testing and thus package-private.
+    // it isn't useful to have as a public method, also see notes on 
+    // ConcurrentLinkedQueue.size()
+    int pendingMessageCount() {
+        return messages.size();
     }
 
     @Override
