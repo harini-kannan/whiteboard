@@ -1,11 +1,9 @@
- package ui;
+ package client;
 
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
@@ -14,12 +12,13 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JRadioButton;
 
-import ui.client.WhiteboardClient;
-import ui.client.WhiteboardClientDelegate;
+import client.networking.ClientSocket;
+import client.networking.DrawingDelegate;
+import client.networking.DrawingRequestHandler;
 import domain.Drawable;
 import domain.Whiteboard;
 
-public class WhiteboardGUI extends JFrame implements WhiteboardClientDelegate {
+public class WhiteboardGUI extends JFrame implements DrawingDelegate {
     private static final long serialVersionUID = 1L;
     
     private final WhiteboardPanel whiteboardPanel;
@@ -28,15 +27,16 @@ public class WhiteboardGUI extends JFrame implements WhiteboardClientDelegate {
     private final JRadioButton blackButton, whiteButton;
     private final JList<String> userList;
     
-    private WhiteboardClient whiteboardClient;
+    private ClientSocket clientSocket;
 
-    public WhiteboardGUI(Whiteboard whiteboard, WhiteboardClient whiteboardClient) {
+    public WhiteboardGUI(Whiteboard whiteboard, ClientSocket clientSocket) {
         super(whiteboard.getName());
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.whiteboardPanel = new WhiteboardPanel(whiteboard, whiteboardClient);
+        this.whiteboardPanel = new WhiteboardPanel(whiteboard, clientSocket);
         
-        this.whiteboardClient = whiteboardClient;
-        this.whiteboardClient.setDelegate(this);
+        DrawingRequestHandler drawingRequestHandler = new DrawingRequestHandler(this);
+        this.clientSocket = clientSocket;
+        this.clientSocket.switchHandler(drawingRequestHandler);
         
         //Setup Group Layout
         Container cp = this.getContentPane();
@@ -94,7 +94,7 @@ public class WhiteboardGUI extends JFrame implements WhiteboardClientDelegate {
     
     @Override
     public void dispose() {
-        this.whiteboardClient.leaveBoard();
+        this.clientSocket.sendLeave();;
         super.dispose();
     }
     

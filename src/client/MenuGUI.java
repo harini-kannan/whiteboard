@@ -1,10 +1,8 @@
-package ui;
+package client;
 
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
 import java.util.ArrayList;
 
 import javax.swing.GroupLayout;
@@ -14,11 +12,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import client.networking.ClientSocket;
+import client.networking.MenuDelegate;
+import client.networking.MenuRequestHandler;
 import domain.Whiteboard;
-import ui.client.WhiteboardClient;
-import ui.client.WhiteboardMenuItem;
 
-public class MenuGUI extends JFrame implements WindowFocusListener {
+public class MenuGUI extends JFrame implements MenuDelegate {
     private static final long serialVersionUID = 1L;
     
     // JAVA Swing GUI Elements
@@ -28,39 +27,23 @@ public class MenuGUI extends JFrame implements WindowFocusListener {
     private final JButton joinBoardButton;
     private final JComboBox<WhiteboardMenuItem> menuList;
     
-    private WhiteboardClient whiteboardClient;
+    private ClientSocket clientSocket;
 
-    public MenuGUI() {        
+    public MenuGUI(ClientSocket clientSocket) {        
         //JFrame Defaults
         super("Whiteboard Menu");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.addWindowFocusListener(this);
         
-        this.whiteboardClient = new WhiteboardClient();
+        this.clientSocket = clientSocket;
+        this.clientSocket.switchHandler(new MenuRequestHandler(this));
         
-        boolean validUsername = false;
-        
-        while (!validUsername) {
-            String username = JOptionPane.showInputDialog ( "Give a nickname we can identify you with." );
-            if (username == null) { // User clicked 'Cancel'
-                continue;
-            }
-            validUsername = this.whiteboardClient.loginUser(username);
-        }
-        
-        ArrayList<WhiteboardMenuItem> serverBoards = this.whiteboardClient.getMenu();
-        
-        if (serverBoards.size() == 0) {
-            createNewBoard();
-        }
-
         //Instantiate GUI Elements
         newBoardButton = new JButton("New Board");
         joinBoardButton = new JButton("Join Board");
         this.getRootPane().setDefaultButton(joinBoardButton);
         instructionsLabel = new JLabel("Please select a board from the list below or create a new one.");
-        WhiteboardMenuItem[] toPassIn = {};
-        menuList = new JComboBox<WhiteboardMenuItem>(serverBoards.toArray(toPassIn));
+        menuList = new JComboBox<WhiteboardMenuItem>();
+        menuList.setVisible(false);
         
         //Setup Group Layout
         Container cp = this.getContentPane();
@@ -105,26 +88,42 @@ public class MenuGUI extends JFrame implements WindowFocusListener {
     
     public void createNewBoard() {
         String boardName = JOptionPane.showInputDialog("What would you like to name your whiteboard?");
-        Whiteboard toJoin = this.whiteboardClient.joinBoard(this.whiteboardClient.createBoard(boardName));
-        WhiteboardGUI whiteboardGUI = new WhiteboardGUI(toJoin, this.whiteboardClient);
+        this.clientSocket.sendMake(boardName);
+        Whiteboard toJoin = new Whiteboard(boardName);
+        WhiteboardGUI whiteboardGUI = new WhiteboardGUI(toJoin, this.clientSocket);
         whiteboardGUI.setVisible(true); 
     }
     
     public void joinBoard() {
         WhiteboardMenuItem selectedBoard = this.menuList.getItemAt(this.menuList.getSelectedIndex());
-        Whiteboard toJoin = this.whiteboardClient.joinBoard(selectedBoard.getID());
-        WhiteboardGUI whiteboardGUI = new WhiteboardGUI(toJoin, this.whiteboardClient);
+        this.clientSocket.sendJoin(selectedBoard.getID());
+        Whiteboard toJoin = new Whiteboard(selectedBoard.getID(), selectedBoard.getName());
+        WhiteboardGUI whiteboardGUI = new WhiteboardGUI(toJoin, this.clientSocket);
         whiteboardGUI.setVisible(true); 
     }
 
     @Override
-    public void windowGainedFocus(WindowEvent e) {
-        this.menuList.removeAllItems();
-        for (WhiteboardMenuItem m : this.whiteboardClient.getMenu()) {
-            this.menuList.addItem(m);
+    public void onMenu(ArrayList<WhiteboardMenuItem> menus) {
+        if (menus.size() == 0) {
+            createNewBoard();
+        }
+        
+        for (WhiteboardMenuItem m : menus) {
+            menuList.addItem(m);
+        }
+        
+        menuList.setVisible(true);
+    }
+
+    @Override
+    public void onNew(ArrayList<WhiteboardMenuItem> menus) {
+        for (WhiteboardMenuItem m : menus) {
+            menuList.addItem(m);
         }
     }
 
     @Override
-    public void windowLostFocus(WindowEvent e) { }
+    public void onBadID() {
+        JOptionPane.showMessageDialog(this, "We're sorry. There was an error joining the board.");
+    }
 }

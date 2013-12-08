@@ -1,12 +1,15 @@
 package client.networking;
 
-import ui.client.WhiteboardClientDelegate;
 import domain.Drawable;
 import domain.DrawableParser;
 
 public class DrawingRequestHandler implements RequestHandler {
 
-    private WhiteboardClientDelegate drawingDelegate;
+    private final DrawingDelegate drawingDelegate;
+    
+    public DrawingRequestHandler(DrawingDelegate drawingDelegate) {
+        this.drawingDelegate = drawingDelegate;
+    }
 
     @Override
     public void parseString(String input) {

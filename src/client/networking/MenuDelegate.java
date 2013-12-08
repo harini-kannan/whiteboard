@@ -2,7 +2,7 @@ package client.networking;
 
 import java.util.ArrayList;
 
-import ui.client.WhiteboardMenuItem;
+import client.WhiteboardMenuItem;
 
 public interface MenuDelegate {
 
