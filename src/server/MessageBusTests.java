@@ -69,7 +69,7 @@ public class MessageBusTests {
     public void hasClientKeyTest() {
         MessageBus messageBus = new MessageBus();
         
-        ClientHandler clientHandler = new ClientHandler(messageBus, null);  // no socket
+        ClientHandler clientHandler = new SocketedClientHandler(messageBus, null);  // no socket
         clientHandler.setNickname("nickname");
         
         messageBus.subscribeClient(clientHandler);

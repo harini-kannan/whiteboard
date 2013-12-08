@@ -69,13 +69,13 @@ public class DrawingRequestHandler implements RequestHandler {
         messageBus.publishToWhiteboard(whiteboardId, new Action<ServerWhiteboard>() {
            @Override
             public void perform(ServerWhiteboard whiteboard) {
+               String message = "JOIN " + clientHandler.getNickname();
+               whiteboard.publishToClients(messageBus, message);
+               
                 whiteboard.addClient(clientHandler.getNickname());
                 
                 for (Drawable drawable : whiteboard.getDrawables())
                     messageBus.publishToClient(clientHandler.getNickname(), drawable.encode());
-                
-                String message = "JOIN " + clientHandler.getNickname();
-                whiteboard.publishToClients(messageBus, message);
             }
         });
     }
