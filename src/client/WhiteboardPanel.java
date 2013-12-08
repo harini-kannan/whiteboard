@@ -73,7 +73,6 @@ public class WhiteboardPanel extends JPanel {
     }
     
     public void addDrawableToBoard(Drawable d) {
-        drawingBuffer = createImage(getWidth(), getHeight());
         Graphics2D g = (Graphics2D) drawingBuffer.getGraphics();
         whiteBoard.addDrawable(d);
         d.drawTo(g);
@@ -90,7 +89,6 @@ public class WhiteboardPanel extends JPanel {
         
         this.repaint();
     }
-  
     
     /*
      * Draw a line between two points (x1, y1) and (x2, y2), specified in

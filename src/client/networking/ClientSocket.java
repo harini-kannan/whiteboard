@@ -34,11 +34,13 @@ public class ClientSocket implements Runnable {
                 }
                 String message = null;
                 while ((message = messages.poll()) != null) {
+                    System.out.println("Sending " + message);
                     out.println(message);
                 }
                 String line = null;
                 while (in.ready()) {
                     line = in.readLine();
+                    System.out.println("Got a response!: " + line);
                     handler.parseString(line);
                 }
             }
@@ -63,19 +65,19 @@ public class ClientSocket implements Runnable {
     }
 
     public void sendNickname(String nickname) {
-        messages.add("NICK " + nickname + "\n");
+        messages.add("NICK " + nickname);
     }
 
     public void sendMake(String boardName) {
-        messages.add("MAKE " + boardName + "\n");
+        messages.add("MAKE " + boardName);
     }
 
     public void sendJoin(int boardID) {
-        messages.add("JOIN " + boardID + "\n");
+        messages.add("JOIN " + boardID);
     }
 
     public void sendLeave() {
-        messages.add("LEAVE \n");
+        messages.add("LEAVE");
     }
 
     public void sendDrawMessage(Drawable s) {
@@ -83,6 +85,6 @@ public class ClientSocket implements Runnable {
     }
 
     public void sendBye() {
-        messages.add("BYE\n");
+        messages.add("BYE");
     }
 }

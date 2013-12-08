@@ -13,19 +13,24 @@ public class DrawingRequestHandler implements RequestHandler {
 
     @Override
     public void parseString(String input) {
-        String[] parsed = input.split(" ");
-        if (parsed[0].equals("LEAVE")) {
+        String[] parsed = input.toLowerCase().split(" ");
+        if (parsed[0].equals("leave")) {
             drawingDelegate.signOffUser(parsed[1]);
-        } else if (parsed[0].equals("JOIN")) {
+        } else if (parsed[0].equals("join")) {
             drawingDelegate.signOnUser(parsed[1]);
-        } else if (parsed[0].equals("DRAW")) {
+        } else if (parsed[0].equals("draw")) {
             DrawableParser parser = new DrawableParser();
             Drawable parserInput = parser.parse(parsed);
+            
+            if (parserInput == null) {
+                System.out.println("Unable to parse drawable " + input);
+                return;
+            }
+            
             drawingDelegate.addDrawableToWhiteBoard(parserInput);
-        } else if (parsed[0].equals("MENU")) {
-            // TODO(kulpreet): Add in a "on close" method to the whiteboard that
-            // changes the handler to a MenuRequestHandler.
         }
-
+        else {
+            // TODO(ddoucet): error message -- at least log it
+        }
     }
 }

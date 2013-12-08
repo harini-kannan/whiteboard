@@ -4,6 +4,7 @@ import server.messaging.*;
 import server.ClientHandler;
 
 public class LoginRequestHandler implements RequestHandler {
+    private final static String NICK_OK = "NICKOK";
     private final static String SPECIFY_NICK = "SPECIFYNICK";
     private final static String NICK_IN_USE = "NICKINUSE";
     
@@ -29,6 +30,8 @@ public class LoginRequestHandler implements RequestHandler {
             clientHandler.log("Invalid request: " + request);
             return;
         }
+        
+        clientHandler.addMessage(NICK_OK);
         
         clientHandler.setNickname(split[1]);
         messageBus.subscribeClient(clientHandler);

@@ -10,6 +10,9 @@ import java.util.Queue;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import client.LoginGUI.State;
+import client.networking.ClientSocket;
+
 public class Main {
 
     /*
@@ -62,18 +65,31 @@ public class Main {
             else {
                 s = new Socket(hostname, port);
             }
+
+            final ClientSocket clientSocket = new ClientSocket(s);
+            
+            Thread socketThread = new Thread(clientSocket);
+            socketThread.start();
+            
             // set up the UI (on the event-handling thread)
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
-                    LoginGUI loginGUI = new LoginGUI(s);
+                    LoginGUI loginGUI = new LoginGUI(clientSocket);
                     loginGUI.requestLogin();
+                    
+                    while (loginGUI.getState() == State.Waiting) {
+                        try {
+                            Thread.sleep(50);
+                        } catch (InterruptedException e) {  // ??? loljava
+                            e.printStackTrace();
+                        }
+                    }
                 }
             });
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
-
     }
 
 }

@@ -49,7 +49,6 @@ public class MenuGUI extends JFrame implements MenuDelegate {
         this.getRootPane().setDefaultButton(joinBoardButton);
         instructionsLabel = new JLabel("Please select a board from the list below or create a new one.");
         menuList = new JComboBox<WhiteboardMenuItem>();
-        menuList.setVisible(false);
         
         //Setup Group Layout
         Container cp = this.getContentPane();
@@ -117,23 +116,15 @@ public class MenuGUI extends JFrame implements MenuDelegate {
     }
 
     @Override
-    public void onMenu(ArrayList<WhiteboardMenuItem> menus) {
-        if (menus.size() == 0) {
-            createNewBoard();
-        }
-        
+    public void onMenu(ArrayList<WhiteboardMenuItem> menus) {        
         for (WhiteboardMenuItem m : menus) {
             menuList.addItem(m);
         }
-        
-        menuList.setVisible(true);
     }
 
     @Override
-    public void onNew(ArrayList<WhiteboardMenuItem> menus) {
-        for (WhiteboardMenuItem m : menus) {
-            menuList.addItem(m);
-        }
+    public void onNew(WhiteboardMenuItem menu) {
+        menuList.addItem(menu);
     }
 
     @Override
