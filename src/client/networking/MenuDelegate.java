@@ -1,10 +1,14 @@
 package client.networking;
 
+import java.util.ArrayList;
+
+import ui.client.WhiteboardMenuItem;
+
 public interface MenuDelegate {
 
-    public void onMenu();
+    public void onMenu(ArrayList<WhiteboardMenuItem> menus);
 
-    public void onNew();
+    public void onNew(ArrayList<WhiteboardMenuItem> menus);
 
     public void onBadID();
 }
