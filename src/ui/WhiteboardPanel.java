@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import ui.client.WhiteboardClient;
 import ui.client.WhiteboardClientDelegate;
 import domain.Drawable;
 import domain.Stroke;
@@ -29,6 +30,7 @@ public class WhiteboardPanel extends JPanel {
     // image where the user's drawing is stored
     private Image drawingBuffer;
     private Whiteboard whiteBoard;
+    private WhiteboardClient whiteboardClient;
     private Color drawColor;
     private int drawThickness = 1;
      
@@ -37,8 +39,9 @@ public class WhiteboardPanel extends JPanel {
      * @param width width in pixels
      * @param height height in pixels
      */
-    public WhiteboardPanel(Whiteboard whiteBoard) {
+    public WhiteboardPanel(Whiteboard whiteBoard, WhiteboardClient whiteboardClient) {
         this.whiteBoard = whiteBoard;
+        this.whiteboardClient = whiteboardClient;
         this.drawColor = Color.BLACK;
         this.setPreferredSize(new Dimension(Whiteboard.WIDTH, Whiteboard.HEIGHT));
         addDrawingController();
@@ -74,7 +77,6 @@ public class WhiteboardPanel extends JPanel {
         drawingBuffer = createImage(getWidth(), getHeight());
         Graphics2D g = (Graphics2D) drawingBuffer.getGraphics();
         whiteBoard.addDrawable(d);
-        //TODO: Send stroke to server
         d.drawTo(g);
         this.repaint();
     }
@@ -153,6 +155,9 @@ public class WhiteboardPanel extends JPanel {
             for (Point p : points) {
                 newStroke.addPoint(p);
             }
+            
+            whiteboardClient.addDrawableToServerBoard(newStroke);
+            
             whiteBoard.addDrawable(newStroke);
         }
 

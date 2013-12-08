@@ -1,5 +1,10 @@
 package ui.client;
 
+/**
+ * WhiteboardMenuItem is a data encapsulation object for listing whiteboards
+ * that can be used as the type argument for Swing objects such as JList
+ *
+ */
 public class WhiteboardMenuItem {
         private int id;
         private String name;
@@ -20,6 +25,7 @@ public class WhiteboardMenuItem {
             return name;
         }
 
+        @Override
         public String toString()
         {
             return name;

@@ -33,7 +33,7 @@ public class WhiteboardGUI extends JFrame implements WhiteboardClientDelegate {
     public WhiteboardGUI(Whiteboard whiteboard, WhiteboardClient whiteboardClient) {
         super(whiteboard.getName());
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.whiteboardPanel = new WhiteboardPanel(whiteboard);
+        this.whiteboardPanel = new WhiteboardPanel(whiteboard, whiteboardClient);
         
         this.whiteboardClient = whiteboardClient;
         this.whiteboardClient.setDelegate(this);
@@ -46,6 +46,9 @@ public class WhiteboardGUI extends JFrame implements WhiteboardClientDelegate {
         layout.setAutoCreateContainerGaps(true);
         
         DefaultListModel<String> listModel = new DefaultListModel<String>();
+        for (String username : whiteboard.getUsers()) {
+            listModel.addElement(username);
+        }
         
         this.colorSelector = new ButtonGroup();
         this.blackButton = new JRadioButton("Draw");
