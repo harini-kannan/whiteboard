@@ -22,7 +22,8 @@ public class ClientHandler implements ActionQueue<ClientHandler> {
     }
     
     public void log(String string) {
-        logger.writeLine(clientId.toString(), string);
+        if (logger != null)
+            logger.writeLine(clientId.toString(), string);
     }
     
     @Override
