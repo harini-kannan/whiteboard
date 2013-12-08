@@ -34,9 +34,9 @@ public class WhiteboardPanel extends JPanel {
     private int drawThickness = 1;
      
     /**
-     * Make a canvas.
-     * @param width width in pixels
-     * @param height height in pixels
+     * Make a WhiteboardPanel.
+     * @param whiteboard Whiteboard object
+     * @param height ClientSocket that has the current server connection
      */
     public WhiteboardPanel(Whiteboard whiteBoard, ClientSocket clientSocket) {
         this.whiteBoard = whiteBoard;
@@ -47,6 +47,14 @@ public class WhiteboardPanel extends JPanel {
         // note: we can't call makeDrawingBuffer here, because it only
         // works *after* this canvas has been added to a window.  Have to
         // wait until paintComponent() is first called.
+    }
+    
+    public void setDrawColor(Color color) {
+        this.drawColor = color;
+    }
+    
+    public void setDrawThickness(int thickness) {
+        this.drawThickness = thickness;
     }
     
     /**
@@ -62,14 +70,6 @@ public class WhiteboardPanel extends JPanel {
         
         // Copy the drawing buffer to the screen.
         g.drawImage(drawingBuffer, 0, 0, null);
-    }
-    
-    public void setDrawColor(Color color) {
-        this.drawColor = color;
-    }
-    
-    public void setDrawThickness(int thickness) {
-        this.drawThickness = thickness;
     }
     
     public void addDrawableToBoard(Drawable d) {
