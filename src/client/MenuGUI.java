@@ -98,6 +98,9 @@ public class MenuGUI extends JFrame implements MenuDelegate {
      */
     public void createNewBoard() {
         String boardName = JOptionPane.showInputDialog("What would you like to name your whiteboard?");
+        if (boardName == null) {
+            return;
+        }
         this.clientSocket.sendMake(boardName);
         Whiteboard toJoin = new Whiteboard(boardName);
         createAndShowWhiteboardGUI(toJoin); 
