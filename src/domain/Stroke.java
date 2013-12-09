@@ -83,7 +83,7 @@ public class Stroke implements Drawable {
     }
     
     private String encodeColor() {
-        return Integer.toString(strokeColor.getRGB());
+        return Integer.toString(strokeColor.getRGB() & 0xffffff);  // ignore alpha bits
     }
     
     private String encodePoint(Point point) {

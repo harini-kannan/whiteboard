@@ -22,7 +22,7 @@ public class StrokeTests {
     private void assertRequestEquals(String request, Stroke stroke) {
         DrawableParser parser = new DrawableParser();
         
-        assertEquals(parser.parse(createRequest(request)), stroke);
+        assertEquals(stroke, parser.parse(createRequest(request)));
         assertEquals(request, stroke.encode().toLowerCase());
     }
     
@@ -35,21 +35,21 @@ public class StrokeTests {
     @Test
     public void decodeBlackTwoPointsTest() {
         assertRequestEquals(
-            "draw stroke black 1 1,1 20,20", 
+            "draw stroke 0 1 1,1 20,20", 
             createStroke(Color.black, 1, new Point(1, 1), new Point(20, 20)));
     }
     
     @Test
     public void decodeWhiteTwoPointsTest() {
         assertRequestEquals(
-            "draw stroke white 1 1,1 20,20",
+            "draw stroke 16777215 1 1,1 20,20",
             createStroke(Color.white, 1, new Point(1, 1), new Point(20, 20)));
     }
     
     @Test
     public void decodeMultiplePointsTest() {
         assertRequestEquals(
-            "draw stroke white 1 1,1 20,20 14,14 15,15 16,16 17,17 18,18",
+            "draw stroke 16777215 1 1,1 20,20 14,14 15,15 16,16 17,17 18,18",
             createStroke(Color.white, 1, 
                 new Point(1, 1), new Point(20, 20), new Point(14, 14),
                 new Point(15, 15), new Point(16, 16), new Point(17, 17), new Point(18, 18)));
@@ -58,23 +58,23 @@ public class StrokeTests {
     @Test
     public void decodeLargeThicknessBlackTwoPointsTest() {
         assertRequestEquals(
-            "draw stroke white 100 1,1 20,20",
+            "draw stroke 16777215 100 1,1 20,20",
             createStroke(Color.white, 100, new Point(1, 1), new Point(20, 20)));
     }
     
     @Test
     public void decodeNegativeThicknessFailsTest() {
-        assertRequestFails("draw stroke white -100 1,1 20,20");
+        assertRequestFails("draw stroke 16777215 -100 1,1 20,20");
     }
     
     @Test
     public void decodeOnePointFailsTest() {
-        assertRequestFails("draw stroke white 1 1,1");
+        assertRequestFails("draw stroke 16777215 1 1,1");
     }
     
     @Test
     public void decodeNoThicknessFailsTest() {
-        assertRequestFails("draw stroke white 1,1 20,20");
+        assertRequestFails("draw stroke 16777215 1,1 20,20");
     }
     
     @Test
@@ -89,17 +89,17 @@ public class StrokeTests {
     
     @Test
     public void decodeFloatingPointThicknessFailsTest() {
-        assertRequestFails("draw stroke white 1.0 1,1 20,20");
+        assertRequestFails("draw stroke 16777215 1.0 1,1 20,20");
     }
     
     @Test
     public void decodePointMissingParamFailsTest() {
-        assertRequestFails("draw stroke white 1 1, 20,20");
-        assertRequestFails("draw stroke white 1 ,1 20,20");
+        assertRequestFails("draw stroke 16777215 1 1, 20,20");
+        assertRequestFails("draw stroke 16777215 1 ,1 20,20");
     }
     
     @Test
     public void decodeNegativePointParamFailsTest() {
-        assertRequestFails("draw stroke white -1,1 20,20");
+        assertRequestFails("draw stroke 16777215 -1,1 20,20");
     }
 }

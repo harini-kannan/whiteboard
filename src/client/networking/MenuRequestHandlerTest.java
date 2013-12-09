@@ -52,7 +52,7 @@ public class MenuRequestHandlerTest {
                 System.out.println("in onBadID method");
             };
         });
-        String input = "NEW 24 - bananas";
+        String input = "NEW 24-bananas";
         handler.parseString(input);
     }
 
