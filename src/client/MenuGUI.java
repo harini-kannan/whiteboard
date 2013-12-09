@@ -33,13 +33,14 @@ public class MenuGUI extends JFrame implements MenuDelegate {
     private final JButton joinBoardButton;
     private final JComboBox<WhiteboardMenuItem> menuList;
     
+    private final String nickname;
     private ClientSocket clientSocket;
 
-    public MenuGUI(ClientSocket clientSocket) {        
+    public MenuGUI(ClientSocket clientSocket, String nickname) {        
         //JFrame Defaults
         super("Whiteboard Menu");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        
+        this.nickname = nickname;
         this.clientSocket = clientSocket;
         this.clientSocket.switchHandler(new MenuRequestHandler(this));
         
@@ -115,7 +116,7 @@ public class MenuGUI extends JFrame implements MenuDelegate {
     }
     
     private void createAndShowWhiteboardGUI(Whiteboard toJoin) {
-        WhiteboardGUI whiteboardGUI = new WhiteboardGUI(this, toJoin, this.clientSocket);
+        WhiteboardGUI whiteboardGUI = new WhiteboardGUI(this, toJoin, this.clientSocket, this.nickname);
         
         this.setVisible(false);
         whiteboardGUI.setVisible(true);
