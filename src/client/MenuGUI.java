@@ -122,11 +122,13 @@ public class MenuGUI extends JFrame implements MenuDelegate {
         whiteboardGUI.setVisible(true);
         this.setVisible(true);
         
-        clientSocket.switchHandler(new MenuRequestHandler(this));  // go back to handling out messages
+        clientSocket.switchHandler(new MenuRequestHandler(this));  // go back to handling our messages
     }
 
     @Override
-    public void onMenu(ArrayList<WhiteboardMenuItem> menus) {        
+    public void onMenu(ArrayList<WhiteboardMenuItem> menus) {
+        menuList.removeAllItems();
+        
         for (WhiteboardMenuItem m : menus) {
             menuList.addItem(m);
         }
