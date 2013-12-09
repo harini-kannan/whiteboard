@@ -50,7 +50,7 @@ public class Stroke implements Drawable {
     @Override
     public void drawTo(Graphics2D graphics) {
         graphics.setColor(this.strokeColor);
-        graphics.setStroke(new BasicStroke(this.strokeThickness));
+        graphics.setStroke(new BasicStroke(this.strokeThickness, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
         
         for (int i = 0; i < points.size() - 1; ++i) {
             Point pointFrom = this.points.get(i);
