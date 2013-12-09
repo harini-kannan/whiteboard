@@ -21,6 +21,7 @@ public class LoginGUI implements LoginDelegate {
     
     private ClientSocket clientSocket;
     private State state;
+    private String username;
     
     public LoginGUI(ClientSocket s) {
         state = State.Waiting;
@@ -37,17 +38,17 @@ public class LoginGUI implements LoginDelegate {
      * Requests the user to input their nickname.
      */
     public void requestLogin() {
-        String username = JOptionPane.showInputDialog("Give a nickname we can identify you with.");
+        this.username = JOptionPane.showInputDialog("Give a nickname we can identify you with.");
         
-        trySendingNickname(username);
+        trySendingNickname(this.username);
     }
 
     @Override
     public void onNickInUse() {
         System.out.println("Nick in use");
-        String username = JOptionPane.showInputDialog("Sorry that nickname is taken. Give a different nickname we can identify you with.");
+        this.username = JOptionPane.showInputDialog("Sorry that nickname is taken. Give a different nickname we can identify you with.");
         
-        trySendingNickname(username);
+        trySendingNickname(this.username);
     }
     
     private void trySendingNickname(String nickname) {
@@ -64,7 +65,7 @@ public class LoginGUI implements LoginDelegate {
     public void onNickOkay() {
         state = State.Done;
         System.out.println("Done");
-        MenuGUI menuGUI = new MenuGUI(this.clientSocket);
+        MenuGUI menuGUI = new MenuGUI(this.clientSocket, this.username);
         menuGUI.setVisible(true);
     }
 }
