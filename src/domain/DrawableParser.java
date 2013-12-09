@@ -20,7 +20,8 @@ public class DrawableParser {
         // drawing_action := “DRAW” stroke NEWLINE
         // stroke := “STROKE” COLOR THICKNESS POINT{2,}
         // THICKNESS := INT
-        // COLOR := “WHITE” | “BLACK”
+        // COLOR := INT
+        //           ^RGB value
         // POINT := INT “,” INT
 
         if (request.length < 6)  // DRAW STROKE COLOR THICKNESS x1,y1 x2,y2
@@ -47,12 +48,12 @@ public class DrawableParser {
     }
     
     private Color parseColor(String string) {
-        if (string.equals("black"))
-            return Color.black;
-        else if (string.equals("white"))
-            return Color.white;
+        Integer rgb = tryParse(string);
         
-        return null;
+        if (rgb == null)
+            return null;
+        
+        return new Color(rgb);
     }
     
     private Point parsePoint(String string) {
