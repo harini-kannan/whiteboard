@@ -14,17 +14,17 @@ public class MenuRequestHandlerTest {
             public boolean enteredOnBadId = false;
             
             @Override
-            public void onMenu(ArrayList<WhiteboardMenuItem> menus) {
+            public void onMenuResponse(ArrayList<WhiteboardMenuItem> menus) {
                 throw new RuntimeException("Should not enter onMenu");
             }
 
             @Override
-            public void onNew(WhiteboardMenuItem menu) {
+            public void onNewMenuItemRecieved(WhiteboardMenuItem menu) {
                 throw new RuntimeException("Should not enter onNew");
             };
 
             @Override
-            public void onBadID() {
+            public void onInvalidBoardIDRequest() {
                 enteredOnBadId = true;
             };
             
@@ -51,17 +51,17 @@ public class MenuRequestHandlerTest {
             private WhiteboardMenuItem menuItem;
             
             @Override
-            public void onMenu(ArrayList<WhiteboardMenuItem> menus) {
+            public void onMenuResponse(ArrayList<WhiteboardMenuItem> menus) {
                 throw new RuntimeException("Should not enter onMenu");
             }
 
             @Override
-            public void onNew(WhiteboardMenuItem menu) {
+            public void onNewMenuItemRecieved(WhiteboardMenuItem menu) {
                 menuItem = menu;
             };
 
             @Override
-            public void onBadID() {
+            public void onInvalidBoardIDRequest() {
                 throw new RuntimeException("Should not enter onBadId");
             };
             
