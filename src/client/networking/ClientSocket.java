@@ -9,6 +9,15 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import domain.Drawable;
 
+/**
+ * ClientSocket implements Runnable and handles both incoming and outgoing
+ * messages to the server. It has an instance of a RequestHandler that parses
+ * handles messages from the server, and it also has a ConcurrentLinkedQueue to
+ * store outgoing messages to the server.
+ * 
+ * @author hkannan
+ * 
+ */
 public class ClientSocket implements Runnable {
 
     RequestHandler handler;
@@ -20,6 +29,10 @@ public class ClientSocket implements Runnable {
         this.messages = new ConcurrentLinkedQueue<>();
     }
 
+    /**
+     * Receives incoming messages from the server and sends messages from the
+     * message queue to the server.
+     */
     @Override
     public void run() {
         PrintWriter out = null;
@@ -60,30 +73,86 @@ public class ClientSocket implements Runnable {
         }
     }
 
+    /**
+     * The GUI calls this method to also change the RequestHandler when a window
+     * switches to the Login, Menu, or Drawing window.
+     * 
+     * @param h
+     *            Instance of the RequestHandler that the GUI changes.
+     */
     public void switchHandler(RequestHandler h) {
         this.handler = h;
     }
 
+    /**
+     * The following methods correspond to the Client to Server grammar detailed
+     * below: Client to Server
+     * 
+     * Login window nickname := ÒNICKÓ NICKNAME NEWLINE
+     * 
+     * Menu window menu_action := [ make | join ] make := ÒMAKEÓ BOARD_NAME
+     * NEWLINE join := ÒJOINÓ BOARD_ID NEWLINE Drawing window on_draw :=
+     * drawing_action leave := ÒLEAVEÓ NEWLINE Exit bye := ÒBYEÓ NEWLINE
+     * 
+     */
+
+    /**
+     * Sends message from the Login window. Corresponds to the following
+     * grammar: nickname := ÒNICKÓ NICKNAME NEWLINE
+     * 
+     * @param nickname
+     *            Nickname from user input.
+     */
     public void sendNickname(String nickname) {
         messages.add("NICK " + nickname);
     }
 
+    /**
+     * Sends message from the Menu window. Corresponds to the following grammar:
+     * make := ÒMAKEÓ BOARD_NAME
+     * 
+     * @param boardName
+     *            Name of board from user input.
+     */
     public void sendMake(String boardName) {
         messages.add("MAKE " + boardName);
     }
 
+    /**
+     * Sends message from the Menu window. Corresponds to the following grammar:
+     * join := ÒJOINÓ BOARD_ID NEWLINE
+     * 
+     * @param boardID
+     */
     public void sendJoin(int boardID) {
         messages.add("JOIN " + boardID);
     }
 
+    /**
+     * Sends message from the Drawing window. Corresponds to the following
+     * grammar: leave := ÒLEAVEÓ NEWLINE
+     */
     public void sendLeave() {
         messages.add("LEAVE");
     }
 
+    /**
+     * Sends message from the Drawing window. Corresponds to the following
+     * grammar: on_draw := drawing_action drawing_action := ÒDRAWÓ stroke
+     * NEWLINE stroke := ÒSTROKEÓ COLOR THICKNESS POINT THICKNESS := INT COLOR
+     * := INT POINT := INT Ò,Ó INT INT := [1-9][0-9]*
+     * 
+     * @param s
+     *            Drawable object from the user.
+     */
     public void sendDrawMessage(Drawable s) {
         messages.add(s.encode());
     }
 
+    /**
+     * Sends message from the Drawing window. Corresponds to the following
+     * grammar: bye := ÒBYEÓ NEWLINE
+     */
     public void sendBye() {
         messages.add("BYE");
     }
