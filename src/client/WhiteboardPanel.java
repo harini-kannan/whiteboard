@@ -44,6 +44,7 @@ public class WhiteboardPanel extends JPanel {
         this.drawColor = Color.BLACK;
         this.setPreferredSize(new Dimension(Whiteboard.WIDTH, Whiteboard.HEIGHT));
         addDrawingController();
+        
         // note: we can't call makeDrawingBuffer here, because it only
         // works *after* this canvas has been added to a window.  Have to
         // wait until paintComponent() is first called.
@@ -73,6 +74,9 @@ public class WhiteboardPanel extends JPanel {
     }
     
     public void addDrawableToBoard(Drawable d) {
+        if (drawingBuffer == null) {
+            makeDrawingBuffer();
+        }
         Graphics2D g = (Graphics2D) drawingBuffer.getGraphics();
         whiteBoard.addDrawable(d);
         d.drawTo(g);

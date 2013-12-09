@@ -98,6 +98,9 @@ public class MenuGUI extends JFrame implements MenuDelegate {
      */
     public void createNewBoard() {
         String boardName = JOptionPane.showInputDialog("What would you like to name your whiteboard?");
+        if (boardName == null) {
+            return;
+        }
         this.clientSocket.sendMake(boardName);
         Whiteboard toJoin = new Whiteboard(boardName);
         createAndShowWhiteboardGUI(toJoin); 
@@ -126,7 +129,7 @@ public class MenuGUI extends JFrame implements MenuDelegate {
     }
 
     @Override
-    public void onMenu(ArrayList<WhiteboardMenuItem> menus) {
+    public void onMenuResponse(ArrayList<WhiteboardMenuItem> menus) {
         menuList.removeAllItems();
         
         for (WhiteboardMenuItem m : menus) {
@@ -135,12 +138,12 @@ public class MenuGUI extends JFrame implements MenuDelegate {
     }
 
     @Override
-    public void onNew(WhiteboardMenuItem menu) {
+    public void onNewMenuItemRecieved(WhiteboardMenuItem menu) {
         menuList.addItem(menu);
     }
 
     @Override
-    public void onBadID() {
+    public void onInvalidBoardIDRequest() {
         JOptionPane.showMessageDialog(this, "We're sorry. There was an error joining the board.");
     }
 }

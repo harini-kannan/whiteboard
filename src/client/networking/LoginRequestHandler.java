@@ -12,10 +12,10 @@ public class LoginRequestHandler implements RequestHandler {
     public void parseString(String input) {
         if (input.equals("NICKINUSE")) {
             System.out.println("nick in use");
-            loginDelegate.onNickInUse();
+            loginDelegate.onNicknameAlreadyInUse();
         } else if (input.equals("NICKOK")) {
             System.out.println("nick ok");
-            loginDelegate.onNickOkay();
+            loginDelegate.onNicknameSuccess();
         } else {
             // TODO: write an appropriate error message
         }

@@ -10,8 +10,6 @@ public class MenuRequestHandlerTest {
     /** Expected output: in onBadID method **/
     @Test
     public void parseStringBadIDTest() {
-        boolean x = false;
-
         MenuDelegate delegate = new MenuDelegate() {
             public boolean enteredOnBadId = false;
             
