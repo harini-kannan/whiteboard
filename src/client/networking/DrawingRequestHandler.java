@@ -15,9 +15,9 @@ public class DrawingRequestHandler implements RequestHandler {
     public void parseString(String input) {
         String[] parsed = input.toLowerCase().split(" ");
         if (parsed[0].equals("leave")) {
-            drawingDelegate.signOffUser(parsed[1]);
+            drawingDelegate.onUserSignOff(parsed[1]);
         } else if (parsed[0].equals("join")) {
-            drawingDelegate.signOnUser(parsed[1]);
+            drawingDelegate.onUserSignOn(parsed[1]);
         } else if (parsed[0].equals("draw")) {
             DrawableParser parser = new DrawableParser();
             Drawable parserInput = parser.parse(parsed);
@@ -27,7 +27,7 @@ public class DrawingRequestHandler implements RequestHandler {
                 return;
             }
             
-            drawingDelegate.addDrawableToWhiteBoard(parserInput);
+            drawingDelegate.onNewDrawableRecieved(parserInput);
         }
         else {
             // TODO(ddoucet): error message -- at least log it

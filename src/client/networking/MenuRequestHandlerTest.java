@@ -11,18 +11,17 @@ public class MenuRequestHandlerTest {
     /** Expected output: in onBadID method **/
     @Test
     public void parseStringBadIDTest() {
-        MenuDelegate delegate;
 
         MenuRequestHandler handler = new MenuRequestHandler(new MenuDelegate() {
-            public void onMenu(ArrayList<WhiteboardMenuItem> menus) {
+            public void onMenuResponse(ArrayList<WhiteboardMenuItem> menus) {
                 System.out.println("in onMenu method");
             }
 
-            public void onNew(WhiteboardMenuItem menu) {
+            public void onNewMenuItemRecieved(WhiteboardMenuItem menu) {
                 System.out.println("in onNew method");
             };
 
-            public void onBadID() {
+            public void onInvalidBoardIDRequest() {
                 System.out.println("in onBadID method");
             };
         });
@@ -33,22 +32,21 @@ public class MenuRequestHandlerTest {
     /** Expected output: in onNew method 24 bananas **/
     @Test
     public void parseStringonNewTest() {
-        MenuDelegate delegate;
 
         MenuRequestHandler handler = new MenuRequestHandler(new MenuDelegate() {
-            public void onMenu(ArrayList<WhiteboardMenuItem> menus) {
+            public void onMenuResponse(ArrayList<WhiteboardMenuItem> menus) {
                 System.out.println("in onMenu method");
                 for (WhiteboardMenuItem menu : menus) {
                     System.out.println("moo");
                 }
             }
 
-            public void onNew(WhiteboardMenuItem menu) {
+            public void onNewMenuItemRecieved(WhiteboardMenuItem menu) {
                 System.out.println("in onNew method");
                 System.out.println(menu.toString());
             };
 
-            public void onBadID() {
+            public void onInvalidBoardIDRequest() {
                 System.out.println("in onBadID method");
             };
         });

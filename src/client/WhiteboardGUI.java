@@ -127,18 +127,18 @@ public class WhiteboardGUI extends JDialog implements DrawingDelegate {
     }
     
     @Override
-    public void addDrawableToWhiteBoard(Drawable d) {
+    public void onNewDrawableRecieved(Drawable d) {
         this.whiteboardPanel.addDrawableToBoard(d);
     }
     
     @Override
-    public void signOnUser(String username) {
+    public void onUserSignOn(String username) {
         DefaultListModel<String> listModel = (DefaultListModel<String>) this.userList.getModel();
         listModel.addElement(username);
     }
     
     @Override
-    public void signOffUser(String username) {
+    public void onUserSignOff(String username) {
         DefaultListModel<String> listModel = (DefaultListModel<String>) this.userList.getModel();
         listModel.removeElement(username);
     }

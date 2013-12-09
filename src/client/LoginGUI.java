@@ -44,7 +44,7 @@ public class LoginGUI implements LoginDelegate {
     }
 
     @Override
-    public void onNickInUse() {
+    public void onNicknameAlreadyInUse() {
         System.out.println("Nick in use");
         this.username = JOptionPane.showInputDialog("Sorry that nickname is taken. Give a different nickname we can identify you with.");
         
@@ -62,7 +62,7 @@ public class LoginGUI implements LoginDelegate {
     }
 
     @Override
-    public void onNickOkay() {
+    public void onNicknameSuccess() {
         state = State.Done;
         System.out.println("Done");
         MenuGUI menuGUI = new MenuGUI(this.clientSocket, this.username);

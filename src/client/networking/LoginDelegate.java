@@ -1,8 +1,6 @@
 package client.networking;
 
 public interface LoginDelegate {
-
-    public void onNickInUse();
-
-    public void onNickOkay();
+    public void onNicknameAlreadyInUse();
+    public void onNicknameSuccess();
 }
