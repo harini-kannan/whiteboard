@@ -99,8 +99,7 @@ public class MenuGUI extends JFrame implements MenuDelegate {
         String boardName = JOptionPane.showInputDialog("What would you like to name your whiteboard?");
         this.clientSocket.sendMake(boardName);
         Whiteboard toJoin = new Whiteboard(boardName);
-        WhiteboardGUI whiteboardGUI = new WhiteboardGUI(toJoin, this.clientSocket);
-        whiteboardGUI.setVisible(true); 
+        createAndShowWhiteboardGUI(toJoin); 
     }
     
     /**
@@ -110,9 +109,19 @@ public class MenuGUI extends JFrame implements MenuDelegate {
     public void joinBoard() {
         WhiteboardMenuItem selectedBoard = this.menuList.getItemAt(this.menuList.getSelectedIndex());
         this.clientSocket.sendJoin(selectedBoard.getID());
+
         Whiteboard toJoin = new Whiteboard(selectedBoard.getID(), selectedBoard.getName());
-        WhiteboardGUI whiteboardGUI = new WhiteboardGUI(toJoin, this.clientSocket);
-        whiteboardGUI.setVisible(true); 
+        createAndShowWhiteboardGUI(toJoin);
+    }
+    
+    private void createAndShowWhiteboardGUI(Whiteboard toJoin) {
+        WhiteboardGUI whiteboardGUI = new WhiteboardGUI(this, toJoin, this.clientSocket);
+        
+        this.setVisible(false);
+        whiteboardGUI.setVisible(true);
+        this.setVisible(true);
+        
+        clientSocket.switchHandler(new MenuRequestHandler(this));  // go back to handling out messages
     }
 
     @Override

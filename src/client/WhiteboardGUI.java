@@ -10,6 +10,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JRadioButton;
@@ -26,7 +27,7 @@ import domain.Whiteboard;
  * change drawing settings. Also includes a list of users logged in.
  *
  */
-public class WhiteboardGUI extends JFrame implements DrawingDelegate {
+public class WhiteboardGUI extends JDialog implements DrawingDelegate {
     private static final long serialVersionUID = 1L;
     
     private final WhiteboardPanel whiteboardPanel;
@@ -38,8 +39,8 @@ public class WhiteboardGUI extends JFrame implements DrawingDelegate {
     
     private ClientSocket clientSocket;
 
-    public WhiteboardGUI(Whiteboard whiteboard, ClientSocket clientSocket) {
-        super("White Board - " + whiteboard.getName());
+    public WhiteboardGUI(JFrame owner, Whiteboard whiteboard, ClientSocket clientSocket) {
+        super(owner, "White Board - " + whiteboard.getName(), true);  // modal
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.whiteboardPanel = new WhiteboardPanel(whiteboard, clientSocket);
         
