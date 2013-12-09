@@ -125,7 +125,9 @@ public class MenuGUI extends JFrame implements MenuDelegate {
     }
 
     @Override
-    public void onMenu(ArrayList<WhiteboardMenuItem> menus) {        
+    public void onMenu(ArrayList<WhiteboardMenuItem> menus) {
+        menuList.removeAllItems();
+        
         for (WhiteboardMenuItem m : menus) {
             menuList.addItem(m);
         }
