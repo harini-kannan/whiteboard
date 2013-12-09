@@ -19,17 +19,17 @@ public class ColorIcon implements Icon {
     @Override
     public void paintIcon(Component c, Graphics g, int x, int y) {
         g.setColor(color);  
-        g.fillOval (x, y, getIconWidth(), getIconHeight()); 
+        g.fillRect (x, y, getIconWidth(), getIconHeight()); 
     }
 
     @Override
     public int getIconWidth() {
-        return 10;
+        return 30;
     }
 
     @Override
     public int getIconHeight() {
-        return 10;
+        return 30;
     }
 
 }

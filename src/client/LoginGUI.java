@@ -44,8 +44,8 @@ public class LoginGUI implements LoginDelegate {
 
     @Override
     public void onNickInUse() {
-        String username = JOptionPane.showInputDialog(
-            "Sorry that nickname is taken. Give a different nickname we can identify you with.");
+        System.out.println("Nick in use");
+        String username = JOptionPane.showInputDialog("Sorry that nickname is taken. Give a different nickname we can identify you with.");
         
         trySendingNickname(username);
     }

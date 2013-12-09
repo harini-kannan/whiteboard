@@ -98,7 +98,7 @@ public class WhiteboardPanel extends JPanel {
         Graphics2D g = (Graphics2D) drawingBuffer.getGraphics();
         
         g.setColor(this.drawColor);
-        g.setStroke(new BasicStroke(this.drawThickness));
+        g.setStroke(new BasicStroke(this.drawThickness, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
         g.drawLine(x1, y1, x2, y2);
         
         // IMPORTANT!  every time we draw on the internal drawing buffer, we
