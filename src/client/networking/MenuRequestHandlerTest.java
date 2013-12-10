@@ -1,57 +1,84 @@
 package client.networking;
 
 import java.util.ArrayList;
-
 import org.junit.Test;
-
 import client.WhiteboardMenuItem;
+import static org.junit.Assert.*;
 
 public class MenuRequestHandlerTest {
 
     /** Expected output: in onBadID method **/
     @Test
     public void parseStringBadIDTest() {
-
-        MenuRequestHandler handler = new MenuRequestHandler(new MenuDelegate() {
+        MenuDelegate delegate = new MenuDelegate() {
+            public boolean enteredOnBadId = false;
+            
+            @Override
             public void onMenuResponse(ArrayList<WhiteboardMenuItem> menus) {
-                System.out.println("in onMenu method");
+                throw new RuntimeException("Should not enter onMenu");
             }
 
+            @Override
             public void onNewMenuItemRecieved(WhiteboardMenuItem menu) {
-                System.out.println("in onNew method");
+                throw new RuntimeException("Should not enter onNew");
             };
 
+            @Override
             public void onInvalidBoardIDRequest() {
-                System.out.println("in onBadID method");
+                enteredOnBadId = true;
             };
-        });
+            
+            // HACK to make sure things get called
+            @Override
+            public String toString() {
+                assertTrue(enteredOnBadId);
+                return "";
+            }
+        };
+        
+        MenuRequestHandler handler = new MenuRequestHandler(delegate);
+
         String input = "BADID";
         handler.parseString(input);
+
+        delegate.toString();
     }
 
     /** Expected output: in onNew method 24 bananas **/
     @Test
     public void parseStringonNewTest() {
-
-        MenuRequestHandler handler = new MenuRequestHandler(new MenuDelegate() {
+        MenuDelegate delegate = new MenuDelegate() {
+            private WhiteboardMenuItem menuItem;
+            
+            @Override
             public void onMenuResponse(ArrayList<WhiteboardMenuItem> menus) {
-                System.out.println("in onMenu method");
-                for (WhiteboardMenuItem menu : menus) {
-                    System.out.println("moo");
-                }
+                throw new RuntimeException("Should not enter onMenu");
             }
 
+            @Override
             public void onNewMenuItemRecieved(WhiteboardMenuItem menu) {
-                System.out.println("in onNew method");
-                System.out.println(menu.toString());
+                menuItem = menu;
             };
 
+            @Override
             public void onInvalidBoardIDRequest() {
-                System.out.println("in onBadID method");
+                throw new RuntimeException("Should not enter onBadId");
             };
-        });
+            
+            // HACK: see above
+            @Override
+            public String toString() {
+                assertEquals(24, menuItem.getID());
+                assertEquals("bananas", menuItem.getName());
+                return "";
+            }
+        };
+        
+        MenuRequestHandler handler = new MenuRequestHandler(delegate);
+        
         String input = "NEW 24-bananas";
         handler.parseString(input);
+        
+        delegate.toString();
     }
-
 }
