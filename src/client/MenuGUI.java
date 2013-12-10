@@ -112,6 +112,10 @@ public class MenuGUI extends JFrame implements MenuDelegate {
      */
     public void joinBoard() {
         WhiteboardMenuItem selectedBoard = this.menuList.getItemAt(this.menuList.getSelectedIndex());
+        if (selectedBoard == null) {
+            JOptionPane.showMessageDialog(this, "Please create a new board to join.");
+            return;
+        }
         this.clientSocket.sendJoin(selectedBoard.getID());
 
         Whiteboard toJoin = new Whiteboard(selectedBoard.getID(), selectedBoard.getName());
