@@ -7,6 +7,12 @@ import domain.Drawable;
 import domain.Whiteboard;
 import server.messaging.*;
 
+/**
+ * Wraps the domain Whiteboard with a ClientLobby and ActionQueue
+ * 
+ * This means that it has clients and can publish messages to them 
+ * e.g. "tell all clients to draw __"
+ */
 public class ServerWhiteboard extends ClientLobby implements ActionQueue<ServerWhiteboard> {
     private final Whiteboard whiteboard;
 

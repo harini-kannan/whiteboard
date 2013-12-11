@@ -5,6 +5,13 @@ import server.ServerMenu;
 import server.ServerWhiteboard;
 import server.messaging.*;
 
+/**
+ * Handles requests when a client is in the menu state.
+ * 
+ * Transitions to DrawingRequestHandler when the user joins or creates a board.
+ * 
+ * See RequestHandler. 
+ */
 public class MenuRequestHandler implements RequestHandler {
 	private static final String BAD_ID = "BADID";
 	

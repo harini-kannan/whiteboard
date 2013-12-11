@@ -6,6 +6,15 @@ import server.ClientLobby;
 import server.messaging.*;
 import static org.junit.Assert.*;
 
+/**
+ * Test the different cases for a client lobby.
+ * 		- When no one is subscribed, publishing shouldn't fail
+ * 		- When a client is subscribed, publishing should send them a single message
+ * 		- When multiple clients are subscribed, publishing should send each a single message
+ * 		- A client who isn't subscribed should not receive a published message
+ *		- Subscribing a client, publishing, unsubscribing the client, and publishing again should
+ *				end with the client having a single message 
+ */
 public class ClientLobbyTests {
     @Test
     public void publishToNothingDoesntFailTest() {

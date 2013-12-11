@@ -4,6 +4,12 @@ import java.util.*;
 
 // this is here to simplify the MessageBus. It's nice not to have
 // several nested layers of generics
+/**
+ * Used to simplify the MessageBus so that we don't end up having
+ * several nested layers of generics.
+ *
+ * @param <T> The type of the list (e.g. ClientHandler)
+ */
 public class ActionQueueList<T extends ActionQueue<T>> {
     private final List<T> queues;
     

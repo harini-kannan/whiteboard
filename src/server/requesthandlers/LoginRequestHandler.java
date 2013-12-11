@@ -2,7 +2,13 @@ package server.requesthandlers;
 
 import server.messaging.*;
 import server.ClientHandler;
-
+/**
+ * Handles requests when a client is inputting a nickname
+ * 
+ * Transitions to MenuRequestHandler when a valid nickname is supplied
+ * 
+ * See RequestHandler
+ */
 public class LoginRequestHandler implements RequestHandler {
     private final static String NICK_OK = "NICKOK";
     private final static String SPECIFY_NICK = "SPECIFYNICK";

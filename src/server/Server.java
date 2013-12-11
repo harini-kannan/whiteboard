@@ -7,6 +7,11 @@ import java.net.Socket;
 import server.logging.ThreadsafeConsoleLogger;
 import server.messaging.MessageBus;
 
+/**
+ * Main Server class. We need to do two things:
+ * 		1) initialize a thread that simply flushes messages for the menu and whiteboards
+ *		2) listen for incoming client requests and spawn a separate thread to handle each one
+ */
 public class Server {
     private final static int PORT = 4444;
     
@@ -26,6 +31,9 @@ public class Server {
         messageBus.subscribeMenu(serverMenu);
     }
     
+    /**
+     * Creates the server state thread and listens for clients to connect
+     */
     public void serve() throws IOException {
         createServerStateThread();
         
@@ -41,6 +49,9 @@ public class Server {
         }
     }
     
+    /**
+     * Creates the thread that checks messages for all Whiteboards and the ServerMenu
+     */
     private void createServerStateThread() {
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -50,6 +61,12 @@ public class Server {
                     
                     for (ServerWhiteboard whiteboard : serverMenu.getWhiteboards())
                         whiteboard.performActions();
+                    
+                    try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
                 }
             }
         });

@@ -8,6 +8,12 @@ import server.ServerMenu;
 import server.ServerWhiteboard;
 import server.ServerWhiteboardFactory;
 
+/**
+ * Threadsafely passes messages (in the form of Actions) to different types.
+ * 
+ * The code is a little bloated in order to restrict the types of objects
+ * that can subscribe and publish but it works. 
+ */
 public class MessageBus {
     private final ActionQueueList<ServerMenu> menus;
     private final Map<Integer, ActionQueueList<ServerWhiteboard>> whiteboards;

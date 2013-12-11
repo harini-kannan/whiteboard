@@ -4,6 +4,9 @@ import java.util.*;
 
 import server.messaging.MessageBus;
 
+/**
+ * Wraps a list of clients that can be published to (e.g. for menus and whiteboards).
+ */
 public class ClientLobby {
     protected List<String> connectedClientUsernames;
     

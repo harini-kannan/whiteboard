@@ -6,6 +6,16 @@ import server.messaging.*;
 import server.requesthandlers.LoginRequestHandler;
 import server.requesthandlers.MenuRequestHandler;
 
+/**
+ * Test the parser for login requests
+ * 
+ * We're looking for two things here:
+ * 		1) did it parse correctly and (if necessary) send something to the message bus
+ * 		2) did it transition correctly into another request handler
+ * 
+ * Look in LoginRequestHandler for the possible things it can parse. Each
+ * is a separate unit test.
+ */
 public class LoginRequestHandlerTests {
     @Test
     public void nickOkayTest() {
