@@ -97,17 +97,17 @@ public class ClientSocket implements Runnable {
      * The following methods correspond to the Client to Server grammar detailed
      * below: Client to Server
      * 
-     * Login window nickname := ÒNICKÓ NICKNAME NEWLINE
+     * Login window nickname := "NICK" NICKNAME NEWLINE
      * 
-     * Menu window menu_action := [ make | join ] make := ÒMAKEÓ BOARD_NAME
-     * NEWLINE join := ÒJOINÓ BOARD_ID NEWLINE Drawing window on_draw :=
-     * drawing_action leave := ÒLEAVEÓ NEWLINE Exit bye := ÒBYEÓ NEWLINE
+     * Menu window menu_action := [ make | join ] make := "MAKE" BOARD_NAME
+     * NEWLINE join := "JOIN" BOARD_ID NEWLINE Drawing window on_draw :=
+     * drawing_action leave := "LEAVE" NEWLINE Exit bye := "BYE" NEWLINE
      * 
      */
 
     /**
      * Sends message from the Login window. Corresponds to the following
-     * grammar: nickname := ÒNICKÓ NICKNAME NEWLINE
+     * grammar: nickname := "NICK" NICKNAME NEWLINE
      * 
      * @param nickname
      *            Nickname from user input.
@@ -118,7 +118,7 @@ public class ClientSocket implements Runnable {
 
     /**
      * Sends message from the Menu window. Corresponds to the following grammar:
-     * make := ÒMAKEÓ BOARD_NAME
+     * make := "MAKE" BOARD_NAME
      * 
      * @param boardName
      *            Name of board from user input.
@@ -129,7 +129,7 @@ public class ClientSocket implements Runnable {
 
     /**
      * Sends message from the Menu window. Corresponds to the following grammar:
-     * join := ÒJOINÓ BOARD_ID NEWLINE
+     * join := "JOIN" BOARD_ID NEWLINE
      * 
      * @param boardID
      */
@@ -139,7 +139,7 @@ public class ClientSocket implements Runnable {
 
     /**
      * Sends message from the Drawing window. Corresponds to the following
-     * grammar: leave := ÒLEAVEÓ NEWLINE
+     * grammar: leave := "LEAVE" NEWLINE
      */
     public void sendLeave() {
         messages.add("LEAVE");
@@ -147,9 +147,9 @@ public class ClientSocket implements Runnable {
 
     /**
      * Sends message from the Drawing window. Corresponds to the following
-     * grammar: on_draw := drawing_action drawing_action := ÒDRAWÓ stroke
-     * NEWLINE stroke := ÒSTROKEÓ COLOR THICKNESS POINT THICKNESS := INT COLOR
-     * := INT POINT := INT Ò,Ó INT INT := [1-9][0-9]*
+     * grammar: on_draw := drawing_action drawing_action := "DRAW" stroke
+     * NEWLINE stroke := "STROKE" COLOR THICKNESS POINT THICKNESS := INT COLOR
+     * := INT POINT := INT "," INT INT := [1-9][0-9]*
      * 
      * @param s
      *            Drawable object from the user.
@@ -160,7 +160,7 @@ public class ClientSocket implements Runnable {
 
     /**
      * Sends message from the Drawing window. Corresponds to the following
-     * grammar: bye := ÒBYEÓ NEWLINE
+     * grammar: bye := "BYE" NEWLINE
      */
     public void sendBye() {
         messages.add("BYE");

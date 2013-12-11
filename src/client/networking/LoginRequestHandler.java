@@ -19,7 +19,7 @@ public class LoginRequestHandler implements RequestHandler {
      * Parses input according to the following grammar. Calls relevant delegate
      * method.
      * 
-     * nick_in_use := ÒNICKINUSEÓ NEWLINE nick_ok := ÒNICKOKÓ menu_list
+     * nick_in_use := "NICKINUSE" NEWLINE nick_ok := "NICKOK" menu_list
      */
     @Override
     public void parseString(String input) {

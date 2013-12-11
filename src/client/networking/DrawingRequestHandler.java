@@ -20,9 +20,9 @@ public class DrawingRequestHandler implements RequestHandler {
 
     /**
      * Parses input according to the following grammar. Then calls relevant
-     * delegate method. on_friend_join := ÒLEAVEÓ NICKNAME NEWLINE
-     * on_friend_leave := ÒJOINÓ NICKNAME NEWLINE on_friend_draw :=
-     * drawing_action drawing_action := ÒDRAWÓ stroke NEWLINE
+     * delegate method. on_friend_join := "LEAVE" NICKNAME NEWLINE
+     * on_friend_leave := "JOIN" NICKNAME NEWLINE on_friend_draw :=
+     * drawing_action drawing_action := "DRAW" stroke NEWLINE
      */
     @Override
     public void parseString(String input) {
