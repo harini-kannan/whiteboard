@@ -8,6 +8,10 @@ import java.net.Socket;
 import static org.junit.Assert.*;
 
 import org.junit.*;
+
+/**
+ * @category no_didit
+ */
 public class LoginTests {
 	@Before
 	public void setUp() {
