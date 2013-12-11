@@ -76,6 +76,15 @@ public class MenuRequestHandler implements RequestHandler {
             return;
         }
         
+        // it would be nice to have this in onLeave, but we need to make sure
+        // that we're not on the menu list when the whiteboard is created
+        messageBus.publishToMenu(new Action<ServerMenu>() {
+            @Override
+            public void perform(ServerMenu t) {
+                t.removeClient(clientHandler.getNickname());
+            }
+        });
+        
         ServerWhiteboard whiteboard = 
             messageBus
                 .getWhiteboardFactory()
@@ -103,12 +112,6 @@ public class MenuRequestHandler implements RequestHandler {
     }
     
     public void onLeave() {
-        messageBus.publishToMenu(new Action<ServerMenu>() {
-            @Override
-            public void perform(ServerMenu t) {
-                t.removeClient(clientHandler.getNickname());
-            }
-        });
     }
     
     public void requestMenuList() {
