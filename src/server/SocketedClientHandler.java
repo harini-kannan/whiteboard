@@ -70,6 +70,8 @@ public class SocketedClientHandler extends ClientHandler implements Runnable {
         } catch (InterruptedException e) {
         }
         finally {
+        	currentHandler.onLeave();
+        	
             if (out != null)
                 out.close();
             
