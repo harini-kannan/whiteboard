@@ -40,8 +40,10 @@ public class SocketedClientHandler extends ClientHandler implements Runnable {
             
             log("Received message: " + message.toLowerCase());
             
-            if (message.toLowerCase().equals("bye") && getNickname() != null) {
-        		messageBus.unsubscribeClient(this);
+            if (message.toLowerCase().equals("bye")) {
+            	if (getNickname() != null)
+            		messageBus.unsubscribeClient(this);
+            	
                 shouldExit = true;
                 return;
             }
