@@ -20,8 +20,7 @@ public class MessageBus {
         clients = new HashMap<>();
         whiteboardFactory = new ServerWhiteboardFactory(this);
     }
-    
-    // TODO(ddoucet): not sure this really belongs here
+
     public ServerWhiteboardFactory getWhiteboardFactory() {
         return whiteboardFactory;
     }

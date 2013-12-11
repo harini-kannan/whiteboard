@@ -15,7 +15,6 @@ public class DrawableParser {
         return null;
     }
     
-    // TODO(ddoucet): this is pretty shitty looking
     private Stroke parseStroke(String[] request) {
         // drawing_action := “DRAW” stroke NEWLINE
         // stroke := “STROKE” COLOR THICKNESS POINT{2,}

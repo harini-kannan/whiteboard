@@ -7,7 +7,6 @@ import domain.Drawable;
 import domain.Whiteboard;
 import server.messaging.*;
 
-// TODO(ddoucet): this could maybe use a better name...
 public class ServerWhiteboard extends ClientLobby implements ActionQueue<ServerWhiteboard> {
     private final Whiteboard whiteboard;
 
