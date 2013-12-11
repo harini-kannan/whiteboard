@@ -21,6 +21,22 @@ import domain.Whiteboard;
  * MenuGUI is the second level to the Whiteboard interface. It shows a dialog
  * with a menu of all the whiteboards the user can join and allows the user
  * to create a new whiteboard on the server.
+ * 
+ * MenuGUI Testing Strategy
+ * ========================
+ * 1) Test that the menu displays a list of boards consistant with what is on the server
+ * 
+ * Creating New Board
+ * 2) Test that clicking NEW BOARD and then CANCEL returns the menu to focus
+ * 3) Test that clicking NEW BOARD and then entering an empty string prompts the user to name the board
+ * 4) Test that clicking NEW BOARD and then entering a string shows the WhiteboardGUI
+ * 
+ * Joining a Board
+ * 5) Test that clicking JOIN BOARD when there are no boards on the server prompts the user to create a new board
+ * 6) Test that clicking JOIN BOARD when a board is selected shows the WhiteboardGUI
+ * 
+ * Concurrency (Testing With Multiple Clients)
+ * 7) Test that adding a new board in one client updates the other client with this change
  *
  */
 public class MenuGUI extends JFrame implements MenuDelegate {

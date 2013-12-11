@@ -10,6 +10,15 @@ import client.networking.LoginRequestHandler;
  * LoginGUI is the entry-point to the Whiteboard interface. It shows a dialog
  * requesting for the user to enter a nickname and then will only show 
  * the menu interface if the nickname is valid.
+ * 
+ * 
+ * LoginGUI Testing Strategy
+ * =========================
+ * 1) Test that lack of a server or a failed server connection should pop an error dialog.
+ * 2) Test that hitting the cancel button exits the program
+ * 3) Test that an empty string repops the input dialog
+ * 4) Test that typing in a nickname that already exists on the server prompts for a different nickname
+ * 5) Test that typing in a unqiue nickname shows the MenuGUI
  *
  */
 public class LoginGUI implements LoginDelegate {
