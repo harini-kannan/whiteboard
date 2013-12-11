@@ -51,7 +51,7 @@ public class MenuTests {
         }
         
     }
-    /*
+
     @Test
     public void joinBoardTest() throws IOException {
         Socket socket = TestUtil.connect();
@@ -60,22 +60,37 @@ public class MenuTests {
         BufferedReader in = new BufferedReader(new InputStreamReader(
                 socket.getInputStream()));
         
-        out.println("NICK you-should-give-us-an-A");
+        out.println("NICK hello2");
         assertEquals("NICKOK", in.readLine());
-        assertEquals("MENU", in.readLine());
-        
-        out.println("MAKE you-should-give-us-an-A");
-        
-        Socket otherSocket = TestUtil.connect();
-        
-        PrintWriter otherOut = new PrintWriter(otherSocket.getOutputStream(), true);
-        BufferedReader otherIn = new BufferedReader(new InputStreamReader(otherSocket.getInputStream()));
-        
-        out.println("NICK hello-friend");
-        assertEquals("NICKOK", in.readLine());
-        
-        assertEquals("MENU 1-you-should-give-us-an-A", in.readLine());
+        if (in.readLine().equals("MENU 1-you-should-give-us-an-a")) {
+            out.println("JOIN 1");
+            assertEquals("JOIN you-should-give-us-an-a", in.readLine());
+        }
+        else if (in.readLine().equals("NEW 1-you-should-give-us-an-a")) {
+            out.println("JOIN 1");
+            assertEquals("JOIN you-should-give-us-an-a", in.readLine());
+        }
     }
-    */
+    
+    @Test
+    public void joinBadBoardTest() throws IOException {
+        Socket socket = TestUtil.connect();
+        
+        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader in = new BufferedReader(new InputStreamReader(
+                socket.getInputStream()));
+        
+        out.println("NICK hello3");
+        assertEquals("NICKOK", in.readLine());
+        if (in.readLine().equals("MENU 1-you-should-give-us-an-a")) {
+            out.println("JOIN 5");
+            assertEquals("BADID", in.readLine());
+        }
+        else if (in.readLine().equals("NEW 1-you-should-give-us-an-a")) {
+            out.println("JOIN 5");
+            assertEquals("BADID", in.readLine());
+        }
+    }
+
 
 }
