@@ -1,5 +1,8 @@
 package domain;
 
+/**
+ * Stroke is a datatype that represents a user-defined stroke (from when the mouse is clicked to when the mouse is released). Stroke objects are passed to the GUI and are rendered on the drawing window. They contain information about color, thickness, and the set of points that the stroke corresponds to.
+ */
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -22,25 +25,24 @@ public class Stroke implements Drawable {
         this.strokeThickness = strokeThickness;
         this.points = new ArrayList<Point>();
     }
-    
+
     @Override
     public boolean equals(Object rhs) {
         if (!(rhs instanceof Stroke))
             return false;
-        return equals((Stroke)rhs);
+        return equals((Stroke) rhs);
     }
-    
+
     public boolean equals(Stroke rhs) {
-        return strokeColor.equals(rhs.strokeColor) &&
-            strokeThickness.equals(rhs.strokeThickness) &&
-            points.equals(rhs.points);
+        return strokeColor.equals(rhs.strokeColor)
+                && strokeThickness.equals(rhs.strokeThickness)
+                && points.equals(rhs.points);
     }
-    
+
     @Override
     public int hashCode() {
-        return strokeColor.hashCode() * 1109 * 1109 +
-            strokeThickness.hashCode() * 1109 +
-            points.hashCode();
+        return strokeColor.hashCode() * 1109 * 1109
+                + strokeThickness.hashCode() * 1109 + points.hashCode();
     }
 
     /**
@@ -50,8 +52,9 @@ public class Stroke implements Drawable {
     @Override
     public void drawTo(Graphics2D graphics) {
         graphics.setColor(this.strokeColor);
-        graphics.setStroke(new BasicStroke(this.strokeThickness, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-        
+        graphics.setStroke(new BasicStroke(this.strokeThickness,
+                BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+
         for (int i = 0; i < points.size() - 1; ++i) {
             Point pointFrom = this.points.get(i);
             Point pointTo = this.points.get(i + 1);
@@ -62,30 +65,39 @@ public class Stroke implements Drawable {
     public void addPoint(int x, int y) {
         addPoint(new Point(x, y));
     }
-    
+
     public void addPoint(Point point) {
         points.add(point);
     }
 
+    /**
+     * Returns String representation of the Stroke.
+     */
     @Override
     public String encode() {
         StringBuilder builder = new StringBuilder("DRAW STROKE ")
-            .append(encodeColor())
-            .append(" ")
-            .append(strokeThickness);
-        
+                .append(encodeColor()).append(" ").append(strokeThickness);
+
         for (Point point : points)
-            builder
-                .append(" ")
-                .append(encodePoint(point));
-        
+            builder.append(" ").append(encodePoint(point));
+
         return builder.toString();
     }
-    
+
+    /**
+     * 
+     * @return String representation of the color.
+     */
     private String encodeColor() {
-        return Integer.toString(strokeColor.getRGB() & 0xffffff);  // ignore alpha bits
+        return Integer.toString(strokeColor.getRGB() & 0xffffff); // ignore
+                                                                  // alpha bits
     }
-    
+
+    /**
+     * 
+     * @param point
+     * @return String representation of the color.
+     */
     private String encodePoint(Point point) {
         return String.format("%d,%d", point.x, point.y);
     }

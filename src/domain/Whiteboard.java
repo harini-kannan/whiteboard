@@ -2,11 +2,14 @@ package domain;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Whiteboard is a datatype representing a drawing board 
- *
+ * Whiteboard is a datatype representing a drawing board. It has a unique ID,
+ * name, a list of users connected to the board, and a list of Drawable
+ * components on the board.
+ * 
  */
 public class Whiteboard {
     private final int id;
@@ -17,26 +20,27 @@ public class Whiteboard {
 
     private final List<String> usernames;
     private final List<Drawable> components;
-    
+
     public Whiteboard(int id, String name) {
         this.id = id;
         this.name = name;
         this.usernames = new ArrayList<>();
         this.components = new ArrayList<>();
     }
-    
+
     public Whiteboard(String name) {
         this.id = 0;
         this.name = name;
         this.usernames = new ArrayList<>();
         this.components = new ArrayList<>();
     }
-    
-    
+
     /**
      * The Whiteboard draws itself and each of its components in turn.
      * 
-     * @param graphics The Graphics 2D object that the whiteboard is being drawn onto.
+     * @param graphics
+     *            The Graphics 2D object that the whiteboard is being drawn
+     *            onto.
      * 
      */
     public void drawTo(Graphics2D graphics) {
@@ -46,20 +50,22 @@ public class Whiteboard {
             d.drawTo(graphics);
         }
     }
-    
+
     /**
      * Add user to the list of users being maintained by the Whiteboard
      * 
-     * @param username Name of user who wants to be added to the current whiteboard.
+     * @param username
+     *            Name of user who wants to be added to the current whiteboard.
      */
     public void signInUser(String username) {
         usernames.add(username);
     }
 
     /**
-     * Remove user to the list of users being maintained by the Whiteboard
+     * Remove user from the list of users being maintained by the Whiteboard
      * 
-     * @param username Name of user who will be removed from the current whiteboard.
+     * @param username
+     *            Name of user who will be removed from the current whiteboard.
      */
     public void signOffUser(String username) {
         usernames.remove(username);
@@ -72,11 +78,11 @@ public class Whiteboard {
     public String getName() {
         return name;
     }
-    
+
     public List<String> getUsers() {
         return this.usernames;
     }
-    
+
     public List<Drawable> getDrawables() {
         return new ArrayList<>(components);
     }
