@@ -18,6 +18,15 @@ import domain.Drawable;
  * @author hkannan
  * 
  */
+
+/**
+ * Manual testing strategy for public method run(): Tests that messages are
+ * successfully sent, that messages are successfully received, and that the
+ * thread waits in the case where the input and output buffers are empty.
+ * 
+ * @author hkannan
+ * 
+ */
 public class ClientSocket implements Runnable {
 
     RequestHandler handler;

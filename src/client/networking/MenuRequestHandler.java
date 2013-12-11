@@ -40,7 +40,8 @@ public class MenuRequestHandler implements RequestHandler {
      * Parses input according to the following grammar. Calls the relevant
      * delegate method.
      * 
-     * menu_list := ÒMENUÓ BOARD* NEWLINE board_created := ÒNEWÓ BOARD NEWLINE
+     * menu_list := ÒMENUÓ BOARD* NEWLINE 
+     * board_created := ÒNEWÓ BOARD NEWLINE
      * id_not_found := ÒBADIDÓ NEWLINE
      */
     public void parseString(String input) {
