@@ -17,7 +17,10 @@ import server.requesthandlers.RequestHandler;
  * when writing.
  * 
  * This implements ActionQueue so that it can subscribe to and have messages
- * published from the message bus. 
+ * published from the message bus.
+ * 
+ * This class is threadsafe because it uses a Threadsafe queue to poll messages from.
+ * Other threads cannot modify the state of this object otherwise.
  */
 public class ClientHandler implements ActionQueue<ClientHandler> {
     private String nickname;

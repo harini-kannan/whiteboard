@@ -2,11 +2,12 @@ package server.messaging;
 
 import java.util.*;
 
-// this is here to simplify the MessageBus. It's nice not to have
-// several nested layers of generics
 /**
  * Used to simplify the MessageBus so that we don't end up having
  * several nested layers of generics.
+ * 
+ * This isn't threadsafe, but it's only ever used as private state
+ * for the message bus, so that isn't important.
  *
  * @param <T> The type of the list (e.g. ClientHandler)
  */

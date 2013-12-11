@@ -12,7 +12,12 @@ import server.ServerWhiteboardFactory;
  * Threadsafely passes messages (in the form of Actions) to different types.
  * 
  * The code is a little bloated in order to restrict the types of objects
- * that can subscribe and publish but it works. 
+ * that can subscribe and publish but it works.
+ * 
+ * This is threadsafe because it locks on the action queue lists as it needs
+ * to in order to publish messages and add/remove people from the lists. 
+ * Note that this implies a global ordering of actions for each subscriber,
+ * which is okay. 
  */
 public class MessageBus {
     private final ActionQueueList<ServerMenu> menus;

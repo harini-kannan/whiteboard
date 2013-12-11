@@ -1,5 +1,9 @@
 package server.logging;
 
+/**
+ * This class is threadsafe because a single instance is passed around and
+ * logged from.
+ */
 public class ThreadsafeConsoleLogger implements ThreadsafeLogger {
 	@Override
 	public void writeLine(String id, String message) {

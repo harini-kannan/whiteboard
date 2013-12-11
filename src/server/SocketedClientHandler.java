@@ -16,6 +16,10 @@ import server.messaging.*;
  * 
  * This is the main class that the server should be using. It implements runnable
  * which means it can be run on its own thread. 
+ * 
+ * It has a threadsafe queue of messages from the MessageBus that it polls on its
+ * own thread and responds to (possibly by putting more messages onto the MessageBus
+ * directed towards clients).
  */
 public class SocketedClientHandler extends ClientHandler implements Runnable {
     private final Socket socket;

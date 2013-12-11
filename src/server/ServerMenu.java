@@ -12,6 +12,10 @@ import server.messaging.*;
  * e.g. "tell all clients that board ____ has been created"
  * 
  * Note that the lobby represents clients who are currently in the menu, but not drawing
+ * 
+ * This has a threadsafe queue of messages from the MessageBus that it polls on its
+ * own thread and responds to (possibly by putting more messages onto the MessageBus
+ * directed towards clients).
  */
 public class ServerMenu extends ClientLobby implements ActionQueue<ServerMenu> {    
     private final List<ServerWhiteboard> whiteboards;

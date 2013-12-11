@@ -12,6 +12,10 @@ import server.messaging.*;
  * 
  * This means that it has clients and can publish messages to them 
  * e.g. "tell all clients to draw __"
+ * 
+ * This has a threadsafe queue of messages from the MessageBus that it polls on its
+ * own thread and responds to (possibly by putting more messages onto the MessageBus
+ * directed towards clients).
  */
 public class ServerWhiteboard extends ClientLobby implements ActionQueue<ServerWhiteboard> {
     private final Whiteboard whiteboard;

@@ -11,6 +11,10 @@ import server.messaging.*;
  * 		2) it needs to subscribe to the message bus
  * 		3) it needs to publish to everyone in the menu state that a new board
  * 				is ready to be joined
+ * 
+ * This is threadsafe because the only piece of data that's important over
+ * multiple threads is the last used id, which is locked on when accessed
+ * (on whiteboard creation).
  */
 public class ServerWhiteboardFactory {
     private final MessageBus messageBus;

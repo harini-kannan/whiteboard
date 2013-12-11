@@ -11,6 +11,14 @@ import server.messaging.MessageBus;
  * Main Server class. We need to do two things:
  * 		1) initialize a thread that simply flushes messages for the menu and whiteboards
  *		2) listen for incoming client requests and spawn a separate thread to handle each one
+ *
+ * See docs/SERVER_ARCHITECTURE.txt for information on how the server works.
+ * 
+ * There will be a single thread for each client, another thread for server state, and a final
+ * thread for accepting clients. Accepting clients will not modify anything, so that's fine.
+ * 
+ * The client threads and server state threads communicate through the message bus (by adding
+ * messages to threadsafe queues that get polled in respective threads). 
  */
 public class Server {
     private final static int PORT = 4444;
