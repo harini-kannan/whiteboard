@@ -5,7 +5,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import server.messaging.*;
 
-// TODO(ddoucet): could maybe use a better name...
 // contains the users who are currently in the menu, but not drawing
 public class ServerMenu extends ClientLobby implements ActionQueue<ServerMenu> {    
     private final List<ServerWhiteboard> whiteboards;

@@ -12,12 +12,14 @@ import server.messaging.*;
 
 public class SocketedClientHandler extends ClientHandler implements Runnable {
     private final Socket socket;
+    private final MessageBus messageBus;
     private boolean shouldExit;
     
     public SocketedClientHandler(Integer clientId, ThreadsafeLogger logger, MessageBus messageBus, Socket socket) {
         super(clientId, logger);
         
         this.shouldExit = false;
+        this.messageBus = messageBus;
         this.socket = socket;
         this.currentHandler = new LoginRequestHandler(messageBus, this);
     }
@@ -28,15 +30,22 @@ public class SocketedClientHandler extends ClientHandler implements Runnable {
     
     private void writeAllMessages(PrintWriter out) {
         String message = null;
-        while ((message = messages.poll()) != null)
+        while ((message = messages.poll()) != null) {
+        	log("<SOCK> Sending: " + message);
             out.println(message);
+        }
     }
     
     private void handleAllMessages(BufferedReader in) throws IOException {
         while (in.ready()) {
-            String message = in.readLine();
+            String message = in.readLine().toLowerCase();
             
-            if (message.toLowerCase().equals("bye")) {
+            log("<SOCK> Received: " + message);
+            
+            if (message.equals("bye")) {
+            	if (getNickname() != null)
+            		messageBus.unsubscribeClient(this);
+            	
                 shouldExit = true;
                 return;
             }
@@ -65,6 +74,8 @@ public class SocketedClientHandler extends ClientHandler implements Runnable {
         } catch (InterruptedException e) {
         }
         finally {
+        	currentHandler.onLeave();
+        	
             if (out != null)
                 out.close();
             
@@ -80,7 +91,7 @@ public class SocketedClientHandler extends ClientHandler implements Runnable {
         try {
             reader.close();
         } catch (IOException e) {
-            //logger.handleException(clientId, e, "closing socket's buffered reader");
+            logger.handleException(clientId.toString(), e, "closing socket's buffered reader");
         }
     }
     
@@ -89,7 +100,7 @@ public class SocketedClientHandler extends ClientHandler implements Runnable {
             socket.close();
         }
         catch(IOException e) {
-            //logger.handleException(clientId, e, "closing client socket");
+            logger.handleException(clientId.toString(), e, "closing client socket");
         }
     }
 }

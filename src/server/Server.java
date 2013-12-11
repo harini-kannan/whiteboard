@@ -30,7 +30,8 @@ public class Server {
         createServerStateThread();
         
         for (int clientIndex = 0; ; clientIndex++) {
-            logger.writeLine("Server", String.format("Waiting for client %d", clientIndex));
+            logger.writeLine("Server", String.format("<SOCK> Waiting for client %d", clientIndex));
+            
             // block until a client connects
             Socket socket = serverSocket.accept();
             

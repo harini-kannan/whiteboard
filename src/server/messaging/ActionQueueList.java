@@ -16,7 +16,15 @@ public class ActionQueueList<T extends ActionQueue<T>> {
             queue.enqueue(action);
     }
     
+    public int size() {
+    	return queues.size();
+    }
+    
     public void subscribe(T queue) {
         queues.add(queue);
+    }
+    
+    public void unsubscribe(T queue) {
+    	queues.remove(queue);
     }
 }

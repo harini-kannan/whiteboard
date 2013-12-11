@@ -11,7 +11,6 @@ public class ServerWhiteboardFactory {
         lastUsedId = 0;
     }
     
-    // TODO(ddoucet): this method is kind of yucky...
     public ServerWhiteboard create(String name) {
         final ServerWhiteboard board = instantiateWhiteboard(name);
         

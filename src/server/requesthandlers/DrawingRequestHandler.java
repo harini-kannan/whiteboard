@@ -28,7 +28,6 @@ public class DrawingRequestHandler implements RequestHandler {
         if (split.length == 0)
             return;
         
-        // TODO(ddoucet): ew switch
         switch (split[0]) {
         case "draw":
             onDraw(split);
@@ -37,7 +36,7 @@ public class DrawingRequestHandler implements RequestHandler {
             returnToMenu();
             break;
         default:
-            // TODO(ddoucet): error?
+        	clientHandler.log("<ERROR> DrawingRequestHandler doesn't know how to handle " + request);
             break;
         }
     }
@@ -48,8 +47,10 @@ public class DrawingRequestHandler implements RequestHandler {
         
         final Drawable drawable = drawableParser.parse(request);
         
-        if (drawable == null)  // error
-            return;  // TODO(ddoucet): be more helpful...
+        if (drawable == null) {  // error
+        	clientHandler.log("<ERROR> Unable to parse drawing request " + request);
+            return;
+        }
 
         messageBus.publishToWhiteboard(whiteboardId, new Action<ServerWhiteboard>() {
             @Override

@@ -53,9 +53,14 @@ public class WhiteboardGUI extends JDialog implements DrawingDelegate {
     private final JList<String> userList;
     
     private ClientSocket clientSocket;
+    
+    private static String getWindowTitle(String nickname, Whiteboard whiteboard) {
+    	return nickname + "'s White Board - " + whiteboard.getName();
+    }
 
     public WhiteboardGUI(JFrame owner, Whiteboard whiteboard, ClientSocket clientSocket, String nickname) {
-        super(owner, nickname + "'s White Board - " + whiteboard.getName(), true);  // modal
+    	super(new DummyFrame(getWindowTitle(nickname, whiteboard)), getWindowTitle(nickname, whiteboard), true);
+    	
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.whiteboardPanel = new WhiteboardPanel(whiteboard, clientSocket);
         

@@ -20,8 +20,7 @@ public class MessageBus {
         clients = new HashMap<>();
         whiteboardFactory = new ServerWhiteboardFactory(this);
     }
-    
-    // TODO(ddoucet): not sure this really belongs here
+
     public ServerWhiteboardFactory getWhiteboardFactory() {
         return whiteboardFactory;
     }
@@ -66,6 +65,19 @@ public class MessageBus {
         synchronized(clients) {
             return clients.containsKey(nickname);
         }
+    }
+    
+    public void unsubscribeClient(ClientHandler handler) {
+    	synchronized(clients) {
+    		if (!clients.containsKey(handler.getNickname()))
+    			return;
+    		
+    		ActionQueueList<ClientHandler> list = clients.get(handler.getNickname());
+    		list.unsubscribe(handler);
+    		
+    		if (list.size() == 0)
+    			clients.remove(handler.getNickname());
+    	}
     }
     
     public void subscribeClient(ClientHandler client) {

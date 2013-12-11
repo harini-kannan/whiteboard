@@ -1,6 +1,7 @@
 package client;
 
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import client.networking.ClientSocket;
 import client.networking.LoginDelegate;
@@ -20,26 +21,13 @@ import client.networking.LoginRequestHandler;
  * 4) Test that typing in a unqiue nickname shows the MenuGUI
  *
  */
-public class LoginGUI implements LoginDelegate {
-    public enum State {
-        Waiting,
-        ShouldExit,
-        Done
-    }
-    
+public class LoginGUI implements LoginDelegate {    
     private ClientSocket clientSocket;
-    private State state;
     private String username;
     
     public LoginGUI(ClientSocket s) {
-        state = State.Waiting;
-        
         clientSocket = s;
         this.clientSocket.switchHandler(new LoginRequestHandler(this));
-    }
-    
-    public State getState() {
-        return state;
     }
     
     /**
@@ -53,7 +41,17 @@ public class LoginGUI implements LoginDelegate {
 
     @Override
     public void onNicknameAlreadyInUse() {
-        System.out.println("Nick in use");
+    	if (!SwingUtilities.isEventDispatchThread()) {
+    		SwingUtilities.invokeLater(new Runnable() {
+    	        @Override
+    	        public void run() {
+    	            onNicknameAlreadyInUse();
+    	        }
+    	    });
+    		
+    		return;
+    	}
+    	
         this.username = JOptionPane.showInputDialog("Sorry that nickname is taken. Give a different nickname we can identify you with.");
         
         trySendingNickname(this.username);
@@ -61,18 +59,15 @@ public class LoginGUI implements LoginDelegate {
     
     private void trySendingNickname(String nickname) {
         if (nickname == null) {
-            state = State.ShouldExit;
+            clientSocket.sendBye();
             return;
         }
-        System.out.println("Not exiting");
         
         this.clientSocket.sendNickname(nickname);
     }
 
     @Override
     public void onNicknameSuccess() {
-        state = State.Done;
-        System.out.println("Done");
         MenuGUI menuGUI = new MenuGUI(this.clientSocket, this.username);
         menuGUI.setVisible(true);
     }
