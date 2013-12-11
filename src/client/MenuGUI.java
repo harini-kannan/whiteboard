@@ -117,6 +117,10 @@ public class MenuGUI extends JFrame implements MenuDelegate {
         if (boardName == null) {
             return;
         }
+        else if (boardName.equals("")) {
+            JOptionPane.showMessageDialog(null, "The name you entered is not valid.");
+            return;
+        }
         this.clientSocket.sendMake(boardName);
         Whiteboard toJoin = new Whiteboard(boardName);
         createAndShowWhiteboardGUI(toJoin); 

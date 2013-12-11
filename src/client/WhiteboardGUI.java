@@ -12,7 +12,7 @@ import client.networking.*;
 import domain.*;
 
 /**
- * A GUI interface that inlcudes a WhiteboardPanel and some tools that
+ * A GUI interface that includes a WhiteboardPanel and some tools that
  * change drawing settings. Also includes a list of users logged in.
  * 
  * WhiteboardGUI Testing Strategy
@@ -21,8 +21,8 @@ import domain.*;
  * 2) Test that the WhiteboardGUI's title has the nickname of the current user
  * 
  * User List
- * 3) Test that the users currently editing the board is consistant with the list of names in the user list
- * 4) Test that having another cient join the board updates the user list
+ * 3) Test that the users currently editing the board is consistent with the list of names in the user list
+ * 4) Test that having another cent join the board updates the user list
  * 5) Test that having another client leave the board updates the user list
  * 
  * Draw Settings
@@ -30,11 +30,11 @@ import domain.*;
  * 7) Test that moving the thickness slider, affects how thick of a line is drawn
  * 
  * Drawing
- * Ensure multiple clients connected to the same board have consistant drawings
+ * Ensure multiple clients connected to the same board have consistent drawings (End-to-End Test)
  * 8) Test that joining a board shows all previously drawn strokes
  * 9) Test that leaving and returning to a board leaves the user where they left off
  * 10) Test that leaving and returning to another board doesn't draw to the previous boards server
- * 11) Test that starting to draw on one board and getting an update before finishing keeps the clients boards consistant
+ * 11) Test that starting to draw on one board and getting an update before finishing keeps the clients boards consistent
  * 12) Test that drawing out of bounds updates on both boards
  *
  */
