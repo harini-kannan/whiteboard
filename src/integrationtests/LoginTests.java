@@ -13,8 +13,9 @@ import org.junit.*;
  * @category no_didit
  */
 public class LoginTests {
-	@Before
-	public void setUp() {
+    
+    @BeforeClass
+	public static void setUp() {
 		TestUtil.startServer();
 	}
 	
@@ -29,4 +30,32 @@ public class LoginTests {
          out.println("MENU");
          assertEquals("SPECIFYNICK", in.readLine());
 	}
+	
+	@Test
+    public void serverSendsNickOkayWhenNickValidTest() throws IOException {
+        Socket socket = TestUtil.connect();
+        
+         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+         BufferedReader in = new BufferedReader(new InputStreamReader(
+                 socket.getInputStream()));
+         
+         out.println("NICK you-should-give-us-an-A");
+         assertEquals("NICKOK", in.readLine());
+    }
+	
+	@Test
+    public void serverSendsNickInUseWhenNickIsTakenTest() throws IOException {
+        Socket socket = TestUtil.connect();
+        Socket otherSocket = TestUtil.connect();
+        
+         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+         PrintWriter otherOut = new PrintWriter(otherSocket.getOutputStream(), true);
+         BufferedReader in = new BufferedReader(new InputStreamReader(
+                 otherSocket.getInputStream()));
+         
+         out.println("NICK you-should-give-us-an-A");
+         otherOut.println("NICK you-should-give-us-an-A");
+         
+         assertEquals("NICKINUSE", in.readLine());
+    }
 }
