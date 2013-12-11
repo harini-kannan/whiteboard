@@ -100,9 +100,6 @@ public class DrawableParser {
                 || (y = tryParse(split[1])) == null)
             return null;
 
-        if (x < 0 || y < 0)
-            return null;
-
         return new Point(x, y);
     }
 
