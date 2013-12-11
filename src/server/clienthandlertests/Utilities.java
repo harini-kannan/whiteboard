@@ -9,6 +9,9 @@ import server.ServerMenu;
 import server.messaging.MessageBus;
 import server.requesthandlers.LoginRequestHandler;
 
+/**
+ * Utilities class. Mostly just has a bunch of factory methods *
+ */
 public class Utilities {
     public static LoginRequestHandler createLoginRequestHandler(MessageBus messageBus, ClientHandler clientHandler) {
         LoginRequestHandler handler = new LoginRequestHandler(messageBus, clientHandler);

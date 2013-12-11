@@ -2,7 +2,10 @@ package server.messaging;
 
 import server.ClientHandler;
 
-// wraps sending the client a message since this will be used a lot
+/**
+ * Wraps sending a String message to a client since that's a very
+ * common action
+ */
 public class ClientMessageAction implements Action<ClientHandler> {
     private final String message;
     

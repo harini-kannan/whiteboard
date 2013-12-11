@@ -6,6 +6,13 @@ import server.ClientHandler;
 import server.ServerWhiteboard;
 import server.messaging.*;
 
+/**
+ * Handles requests when a client is in the menu state.
+ * 
+ * Transitions to MenuRequestHandler when the user leaves the board.
+ * 
+ * See RequestHandler
+ */
 public class DrawingRequestHandler implements RequestHandler {
     private final MessageBus messageBus;
     private final ClientHandler clientHandler;
@@ -70,16 +77,20 @@ public class DrawingRequestHandler implements RequestHandler {
         messageBus.publishToWhiteboard(whiteboardId, new Action<ServerWhiteboard>() {
            @Override
             public void perform(ServerWhiteboard whiteboard) {
+        	   // tell the client who is currently on the whiteboard
                for (String client : whiteboard.getClientUsernames())
                    messageBus.publishToClient(clientHandler.getNickname(), "JOIN " + client);
+
+               // tell the client what drawing is currently on the whiteboard
+               for (Drawable drawable : whiteboard.getDrawables())
+                   messageBus.publishToClient(clientHandler.getNickname(), drawable.encode());
                
+               // tell everyone that we've joined
                String message = "JOIN " + clientHandler.getNickname();
                whiteboard.publishToClients(messageBus, message);
                
-                whiteboard.addClient(clientHandler.getNickname());
-                
-                for (Drawable drawable : whiteboard.getDrawables())
-                    messageBus.publishToClient(clientHandler.getNickname(), drawable.encode());
+               // add the client to the whiteboard
+               whiteboard.addClient(clientHandler.getNickname());
             }
         });
     }

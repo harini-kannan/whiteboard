@@ -7,6 +7,18 @@ import server.messaging.Action;
 import server.messaging.ActionQueue;
 import server.requesthandlers.RequestHandler;
 
+/**
+ * Handles clients. Has a few important things:
+ * 		Threadsafe queue of messages to be sent
+ * 		Current request parser in the parsing state machine (see RequestHandler)
+ * 
+ * We also have a threadsafe logger since this will be on the server. Logging is
+ * definitely nice to have, but separate threads can step on each other's toes
+ * when writing.
+ * 
+ * This implements ActionQueue so that it can subscribe to and have messages
+ * published from the message bus. 
+ */
 public class ClientHandler implements ActionQueue<ClientHandler> {
     private String nickname;
     
