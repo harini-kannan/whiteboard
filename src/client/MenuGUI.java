@@ -3,6 +3,8 @@ package client;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.GroupLayout;
@@ -50,12 +52,12 @@ public class MenuGUI extends JFrame implements MenuDelegate {
     private final JComboBox<WhiteboardMenuItem> menuList;
     
     private final String nickname;
-    private ClientSocket clientSocket;
+    private final ClientSocket clientSocket;
 
-    public MenuGUI(ClientSocket clientSocket, String nickname) {        
+    public MenuGUI(final ClientSocket clientSocket, String nickname) {        
         //JFrame Defaults
         super("Whiteboard Menu");
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.nickname = nickname;
         this.clientSocket = clientSocket;
         this.clientSocket.switchHandler(new MenuRequestHandler(this));
@@ -90,6 +92,21 @@ public class MenuGUI extends JFrame implements MenuDelegate {
                         .addComponent(joinBoardButton))      
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING))
             );
+        
+        addWindowListener(new WindowAdapter() {
+        	  public void windowClosing(WindowEvent e) {
+        		  try {
+              		System.out.println("trying to send bye");
+              		clientSocket.sendBye();
+          		}
+          		catch (Exception ex) {
+          			System.out.println("Exception while trying to send bye");
+          			ex.printStackTrace();
+          		}
+        		  
+        		dispose();
+        	  }
+        	});
         
         this.pack();
         

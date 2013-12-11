@@ -12,12 +12,14 @@ import server.messaging.*;
 
 public class SocketedClientHandler extends ClientHandler implements Runnable {
     private final Socket socket;
+    private final MessageBus messageBus;
     private boolean shouldExit;
     
     public SocketedClientHandler(Integer clientId, ThreadsafeLogger logger, MessageBus messageBus, Socket socket) {
         super(clientId, logger);
         
         this.shouldExit = false;
+        this.messageBus = messageBus;
         this.socket = socket;
         this.currentHandler = new LoginRequestHandler(messageBus, this);
     }
@@ -36,7 +38,10 @@ public class SocketedClientHandler extends ClientHandler implements Runnable {
         while (in.ready()) {
             String message = in.readLine();
             
-            if (message.toLowerCase().equals("bye")) {
+            log("Received message: " + message.toLowerCase());
+            
+            if (message.toLowerCase().equals("bye") && getNickname() != null) {
+        		messageBus.unsubscribeClient(this);
                 shouldExit = true;
                 return;
             }

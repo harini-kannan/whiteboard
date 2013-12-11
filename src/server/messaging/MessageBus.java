@@ -68,6 +68,19 @@ public class MessageBus {
         }
     }
     
+    public void unsubscribeClient(ClientHandler handler) {
+    	synchronized(clients) {
+    		if (!clients.containsKey(handler.getNickname()))
+    			return;
+    		
+    		ActionQueueList<ClientHandler> list = clients.get(handler.getNickname());
+    		list.unsubscribe(handler);
+    		
+    		if (list.size() == 0)
+    			clients.remove(handler.getNickname());
+    	}
+    }
+    
     public void subscribeClient(ClientHandler client) {
         synchronized(clients) {
             if (!clients.containsKey(client.getNickname()))

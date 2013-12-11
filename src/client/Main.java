@@ -2,12 +2,12 @@ package client;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import client.LoginGUI.State;
@@ -20,7 +20,7 @@ public class Main {
      * 
      * Usage: Main.java [--debug] [--port PORT] [--host HOSTNAME]
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnknownHostException, IOException {
         int port = 4444; // default port
         String hostname = "127.0.0.1"; //default hostname
         boolean debug = false;
@@ -56,40 +56,34 @@ public class Main {
             return;
         }
 
-        final Socket s;
-
-        try {
-            if (debug) {
-                s = new Socket();
-            }
-            else {
-                s = new Socket(hostname, port);
-            }
-
-            final ClientSocket clientSocket = new ClientSocket(s);
-            
-            Thread socketThread = new Thread(clientSocket);
-            socketThread.start();
-            
-            // set up the UI (on the event-handling thread)
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    LoginGUI loginGUI = new LoginGUI(clientSocket);
-                    loginGUI.requestLogin();
-                    
-                    while (loginGUI.getState() == State.Waiting) {
-                        try {
-                            Thread.sleep(50);
-                        } catch (InterruptedException e) {  // ??? loljava
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            });
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
+        run(debug ? new Socket() : new Socket(hostname, port));
     }
 
+    private static void run(final Socket s) {
+        final ClientSocket clientSocket = new ClientSocket(s);
+        
+        Thread socketThread = new Thread(clientSocket);
+        socketThread.start();
+        
+        // set up the UI (on the event-handling thread)
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+        		LoginGUI loginGUI = new LoginGUI(clientSocket);
+                loginGUI.requestLogin();
+                
+                while (loginGUI.getState() == State.Waiting) {
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {  // ??? loljava
+                        e.printStackTrace();
+                    }
+                }
+                
+                if (loginGUI.getState() == State.ShouldExit)
+                	clientSocket.sendBye();
+            }
+        });
+    }
+    
+    
 }

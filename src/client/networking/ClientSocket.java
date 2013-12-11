@@ -28,11 +28,10 @@ import domain.Drawable;
  * 
  */
 public class ClientSocket implements Runnable {
-
     RequestHandler handler;
     private final Socket socket;
     private final ConcurrentLinkedQueue<String> messages;
-
+    
     public ClientSocket(Socket s) {
         this.socket = s;
         this.messages = new ConcurrentLinkedQueue<>();
@@ -58,6 +57,11 @@ public class ClientSocket implements Runnable {
                 while ((message = messages.poll()) != null) {
                     System.out.println("Sending " + message);
                     out.println(message);
+                    
+                    if (message == "BYE") {System.out.println("Leaving");
+                    	out.flush();
+                    	return;
+                    }
                 }
                 String line = null;
                 while (in.ready()) {
