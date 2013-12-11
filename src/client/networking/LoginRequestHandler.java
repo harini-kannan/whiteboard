@@ -24,13 +24,11 @@ public class LoginRequestHandler implements RequestHandler {
     @Override
     public void parseString(String input) {
         if (input.equals("NICKINUSE")) {
-            System.out.println("nick in use");
             loginDelegate.onNicknameAlreadyInUse();
         } else if (input.equals("NICKOK")) {
-            System.out.println("nick ok");
             loginDelegate.onNicknameSuccess();
         } else {
-            // TODO: write an appropriate error message
+            throw new RuntimeException("LoginRequestHandler does not know how to handle " + input);
         }
     }
 }

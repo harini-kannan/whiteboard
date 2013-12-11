@@ -47,7 +47,6 @@ public class ClientHandler implements ActionQueue<ClientHandler> {
         if (currentHandler != null)
             currentHandler.onLeave();
         
-        log("Changed request handler");
         currentHandler = to;
         to.onEnter();
     }

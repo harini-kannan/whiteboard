@@ -55,10 +55,11 @@ public class ClientSocket implements Runnable {
                 }
                 String message = null;
                 while ((message = messages.poll()) != null) {
-                    System.out.println("Sending " + message);
+                    System.out.println("<CLIENT> Sending: " + message);
                     out.println(message);
                     
-                    if (message == "BYE") {System.out.println("Leaving");
+                    if (message == "BYE") {
+                    	System.out.println("<CLIENT> Exiting");
                     	out.flush();
                     	return;
                     }
@@ -66,7 +67,7 @@ public class ClientSocket implements Runnable {
                 String line = null;
                 while (in.ready()) {
                     line = in.readLine();
-                    System.out.println("Got a response!: " + line);
+                    System.out.println("<CLIENT> Received: " + line);
                     handler.parseString(line);
                 }
             }

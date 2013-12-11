@@ -5,9 +5,9 @@ import server.ServerMenu;
 import server.ServerWhiteboard;
 import server.messaging.*;
 
-// TODO(ddoucet): this should probably do something better than eat errors
-// at least log them? maybe we ought to modify the grammar to return errors?
 public class MenuRequestHandler implements RequestHandler {
+	private static final String BAD_ID = "BADID";
+	
     private final MessageBus messageBus;
     private final ClientHandler clientHandler;
     
@@ -23,8 +23,6 @@ public class MenuRequestHandler implements RequestHandler {
         if (split.length == 0)
             return;
         
-        // TODO(ddoucet): this could be better... but java isn't so great with
-        // function pointers so ehhhh
         switch (split[0]) {
         case "make":
             requestMake(split);
@@ -33,8 +31,7 @@ public class MenuRequestHandler implements RequestHandler {
             requestJoin(split);
             break;
         default:
-            clientHandler.log("Didn't know how to parse " + request);
-            // TODO(ddoucet): should probably tell them they fucked up?
+            clientHandler.log("<ERROR> MenuRequestHandler doesn't know how to handle " + request);
             return;
         }
     }
@@ -51,16 +48,15 @@ public class MenuRequestHandler implements RequestHandler {
     
     private void requestJoin(String[] request) {
         if (request.length != 2) {
-            clientHandler.log("Invalid request length for join");
-            return;  // TODO(ddoucet)
+            clientHandler.log("<ERROR> Invalid request length for join");
+            return;
         }
         
         Integer boardId = tryParse(request[1]);
         
         if (boardId == null ||  // not an integer
                 !messageBus.hasWhiteboardId(boardId)) {
-            clientHandler.log("Bad id: " + request[1]);
-            clientHandler.addMessage("BADID");
+            clientHandler.addMessage(BAD_ID);
             return;
         }
         
@@ -69,11 +65,9 @@ public class MenuRequestHandler implements RequestHandler {
     
     private void requestMake(String[] request) {
         if (request.length != 2) {
-            clientHandler.log("Invalid request length for make");
-            return;  // TODO(ddoucet)
+            clientHandler.log("<ERROR> Invalid request length for make board (" + request.length + ")");
+            return;
         }
-        
-        // TODO(ddoucet): validate board name? 
         
         ServerWhiteboard whiteboard = 
             messageBus
@@ -84,7 +78,7 @@ public class MenuRequestHandler implements RequestHandler {
     }
     
     private void joinBoard(Integer whiteboardId) {
-        clientHandler.log("Joining board " + whiteboardId.toString());
+        clientHandler.log("<INFO> Joining board " + whiteboardId.toString());
         
         clientHandler.setCurrentRequestHandler(
             new DrawingRequestHandler(messageBus, clientHandler, whiteboardId));
@@ -98,9 +92,7 @@ public class MenuRequestHandler implements RequestHandler {
             }
         });
 
-        clientHandler.log("Entered menu request handler");
         requestMenuList();
-        clientHandler.log("Sent menu list");
     }
     
     public void onLeave() {

@@ -30,17 +30,19 @@ public class SocketedClientHandler extends ClientHandler implements Runnable {
     
     private void writeAllMessages(PrintWriter out) {
         String message = null;
-        while ((message = messages.poll()) != null)
+        while ((message = messages.poll()) != null) {
+        	log("<SOCK> Sending: " + message);
             out.println(message);
+        }
     }
     
     private void handleAllMessages(BufferedReader in) throws IOException {
         while (in.ready()) {
-            String message = in.readLine();
+            String message = in.readLine().toLowerCase();
             
-            log("Received message: " + message.toLowerCase());
+            log("<SOCK> Received: " + message);
             
-            if (message.toLowerCase().equals("bye")) {
+            if (message.equals("bye")) {
             	if (getNickname() != null)
             		messageBus.unsubscribeClient(this);
             	
@@ -89,7 +91,7 @@ public class SocketedClientHandler extends ClientHandler implements Runnable {
         try {
             reader.close();
         } catch (IOException e) {
-            //logger.handleException(clientId, e, "closing socket's buffered reader");
+            logger.handleException(clientId.toString(), e, "closing socket's buffered reader");
         }
     }
     
@@ -98,7 +100,7 @@ public class SocketedClientHandler extends ClientHandler implements Runnable {
             socket.close();
         }
         catch(IOException e) {
-            //logger.handleException(clientId, e, "closing client socket");
+            logger.handleException(clientId.toString(), e, "closing client socket");
         }
     }
 }

@@ -36,12 +36,11 @@ public class DrawingRequestHandler implements RequestHandler {
             Drawable parserInput = parser.parse(parsed);
 
             if (parserInput == null) {
-                System.out.println("Unable to parse drawable " + input);
-                return;
+                throw new RuntimeException("Unable to parse drawable input: " + input);
             }
             drawingDelegate.onNewDrawableRecieved(parserInput);
         } else {
-            // TODO(ddoucet): error message -- at least log it
+            throw new RuntimeException("DrawableRequestHandler doesn't know how to handle command: " + parsed[0]);
         }
     }
 }

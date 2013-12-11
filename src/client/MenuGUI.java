@@ -94,11 +94,10 @@ public class MenuGUI extends JFrame implements MenuDelegate {
             );
         
         addWindowListener(new WindowAdapter() {
-        	  public void windowClosing(WindowEvent e) {
-        		  try {
-              		System.out.println("trying to send bye");
+        	public void windowClosing(WindowEvent e) {
+        		try {
               		clientSocket.sendBye();
-          		}
+              	}
           		catch (Exception ex) {
           			System.out.println("Exception while trying to send bye");
           			ex.printStackTrace();
