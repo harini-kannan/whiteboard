@@ -7,10 +7,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Queue;
-
 import javax.swing.SwingUtilities;
-
-import client.LoginGUI.State;
 import client.networking.ClientSocket;
 
 public class Main {
@@ -70,17 +67,6 @@ public class Main {
             public void run() {
         		LoginGUI loginGUI = new LoginGUI(clientSocket);
                 loginGUI.requestLogin();
-                
-                while (loginGUI.getState() == State.Waiting) {
-                    try {
-                        Thread.sleep(50);
-                    } catch (InterruptedException e) {  // ??? loljava
-                        e.printStackTrace();
-                    }
-                }
-                
-                if (loginGUI.getState() == State.ShouldExit)
-                	clientSocket.sendBye();
             }
         });
     }
