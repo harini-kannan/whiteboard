@@ -10,8 +10,28 @@ import java.util.Queue;
 import javax.swing.SwingUtilities;
 import client.networking.ClientSocket;
 
-public class Main {
-
+public class Client {
+	private final Socket socket;
+	
+	public Client(boolean debug, String hostname, int port) throws UnknownHostException, IOException  {
+		this.socket = debug ? new Socket() : new Socket(hostname, port);
+	}
+	
+	public void run() {
+		final ClientSocket clientSocket = new ClientSocket(socket);
+        
+        Thread socketThread = new Thread(clientSocket);
+        socketThread.start();
+        
+        // set up the UI (on the event-handling thread)
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+        		LoginGUI loginGUI = new LoginGUI(clientSocket);
+                loginGUI.requestLogin();
+            }
+        });
+	}
+	
     /*
      * Main client program for Whiteboard GUI.
      * 
@@ -52,24 +72,7 @@ public class Main {
             System.err.println("Usage: Main.java [--debug] [--port PORT] [--host HOSTNAME]");
             return;
         }
-
-        run(debug ? new Socket() : new Socket(hostname, port));
-    }
-
-    private static void run(final Socket s) {
-        final ClientSocket clientSocket = new ClientSocket(s);
         
-        Thread socketThread = new Thread(clientSocket);
-        socketThread.start();
-        
-        // set up the UI (on the event-handling thread)
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-        		LoginGUI loginGUI = new LoginGUI(clientSocket);
-                loginGUI.requestLogin();
-            }
-        });
+        new Client(debug, hostname, port).run();
     }
-    
-    
 }

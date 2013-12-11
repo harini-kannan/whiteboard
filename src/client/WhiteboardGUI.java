@@ -149,7 +149,7 @@ public class WhiteboardGUI extends JDialog implements DrawingDelegate {
     
     @Override
     public void dispose() {
-        this.clientSocket.sendLeave();;
+        this.clientSocket.sendLeave();
         super.dispose();
     }
     
