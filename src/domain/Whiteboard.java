@@ -10,6 +10,19 @@ import java.util.List;
  * name, a list of users connected to the board, and a list of Drawable
  * components on the board.
  * 
+ * Thread-safety argument: All fields of this class are private and final. The
+ * only mutator methods are signInUser, signOffUser, and addDrawable, which are
+ * called in a thread-safe way as explained below.
+ * 
+ * Two parts of the code use this class:
+ * 
+ * 1) ServerWhiteboard -- private state, thus no threadsafety issues 2)
+ * WhiteboardGUI -- also private state, thus no threadsafety issues
+ * 
+ * The client socket communicates with the whiteboard by calling the signInUser,
+ * signOFfUser, and addDrawable methods on the WhiteboardGUI which use
+ * swing.invokeLater() to ensure it's being accessed on only one thread (the GUI
+ * thread)
  */
 public class Whiteboard {
     private final int id;
