@@ -4,6 +4,9 @@ package client.networking;
  * LoginRequestHandler parses and handles all incoming messages when in the
  * Login window.
  * 
+ * Thread-safe: This class is thread-safe because an instance of a
+ * LoginRequestHandler is confined to only one thread at a time.
+ * 
  * @author hkannan
  * 
  */
@@ -28,7 +31,8 @@ public class LoginRequestHandler implements RequestHandler {
         } else if (input.equals("NICKOK")) {
             loginDelegate.onNicknameSuccess();
         } else {
-            throw new RuntimeException("LoginRequestHandler does not know how to handle " + input);
+            throw new RuntimeException(
+                    "LoginRequestHandler does not know how to handle " + input);
         }
     }
 }

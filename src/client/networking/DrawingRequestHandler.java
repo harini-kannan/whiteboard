@@ -7,6 +7,9 @@ import domain.DrawableParser;
  * DrawingRequestHandler parses and handles all incoming messages when in the
  * Drawing window.
  * 
+ * Thread-safe: This class is thread-safe because an instance of a
+ * DrawingRequestHandler is confined to only one thread at a time.
+ * 
  * @author hkannan
  * 
  */
@@ -36,11 +39,14 @@ public class DrawingRequestHandler implements RequestHandler {
             Drawable parserInput = parser.parse(parsed);
 
             if (parserInput == null) {
-                throw new RuntimeException("Unable to parse drawable input: " + input);
+                throw new RuntimeException("Unable to parse drawable input: "
+                        + input);
             }
             drawingDelegate.onNewDrawableRecieved(parserInput);
         } else {
-            throw new RuntimeException("DrawableRequestHandler doesn't know how to handle command: " + parsed[0]);
+            throw new RuntimeException(
+                    "DrawableRequestHandler doesn't know how to handle command: "
+                            + parsed[0]);
         }
     }
 }

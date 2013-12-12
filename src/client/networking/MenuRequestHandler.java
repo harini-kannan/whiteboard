@@ -8,6 +8,9 @@ import client.WhiteboardMenuItem;
  * MenuRequestHandler parses and handles all incoming messages when in the Menu
  * window.
  * 
+ * Thread-safe: This class is thread-safe because an instance of a
+ * MenuRequestHandler is confined to only one thread at a time.
+ * 
  * @author hkannan
  * 
  */
