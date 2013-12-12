@@ -7,6 +7,8 @@ import java.awt.Point;
  * DrawableParser is a helper class whose purpose is to parse Server messages
  * into Stroke objects.
  * 
+ * This class is thread-safe because it has no fields.
+ * 
  * @author hkannan
  * 
  */
