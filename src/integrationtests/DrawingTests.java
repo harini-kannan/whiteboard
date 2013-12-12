@@ -22,9 +22,10 @@ public class DrawingTests {
     }
 
     /**
-     * Ensures that joining/leaving a board updates connected users for both
-     * Ensures that drawing on the board updates for the other Ensures that
-     * joining the board after drawing has happened will show correct picture
+     * 1) Ensure multiple clients can connect. 2) Ensures that joining/leaving a
+     * board updates connected users for both. 3) Ensures that drawing on the
+     * board updates for the other. 4) Ensures that joining the board after
+     * drawing has happened will show correct picture.
      * 
      * @throws IOException
      */
@@ -64,12 +65,14 @@ public class DrawingTests {
         assertEquals("JOIN user2", in.readLine());
         assertEquals("JOIN user1", otherIn.readLine());
 
-        // User 1 draws a stroke.
+        // User 1 draws a stroke. The whiteboard should update for both user1
+        // and user2.
         out.println("DRAW STROKE 0 5 1,1 2,2");
         assertEquals("DRAW STROKE 0 5 1,1 2,2", in.readLine());
         assertEquals("DRAW STROKE 0 5 1,1 2,2", otherIn.readLine());
 
-        // User 2 draws a stroke.
+        // User 2 draws a stroke. The whiteboard should update for both user1
+        // and user2.
         otherOut.println("DRAW STROKE 0 10 3,3 10,10");
         assertEquals("DRAW STROKE 0 10 3,3 10,10", in.readLine());
         assertEquals("DRAW STROKE 0 10 3,3 10,10", otherIn.readLine());
