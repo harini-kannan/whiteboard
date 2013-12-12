@@ -3,6 +3,11 @@ package domain;
 /**
  * Stroke is a datatype that represents a user-defined stroke (from when the mouse is clicked to when the mouse is released). Stroke objects are passed to the GUI and are rendered on the drawing window. They contain information about color, thickness, and the set of points that the stroke corresponds to.
  */
+/**
+ * 
+ * Thread-safe: This datatype is thread-safe because it is immutable. All fields are private and final, and the only mutator method is addPoint.
+ */
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -10,8 +15,8 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 public class Stroke implements Drawable {
-    private Color strokeColor;
-    private Integer strokeThickness;
+    private final Color strokeColor;
+    private final Integer strokeThickness;
     private final ArrayList<Point> points;
 
     public Stroke() {

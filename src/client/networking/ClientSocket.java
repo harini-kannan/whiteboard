@@ -10,11 +10,13 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import domain.Drawable;
 
 /**
- * ClientSocket implements Runnable and handles both incoming and outgoing
+ * ClientSocket implements Runnable and handles both incoming and outgoing 
  * messages to the server. It has an instance of a RequestHandler that parses
  * handles messages from the server, and it also has a ConcurrentLinkedQueue to
  * store outgoing messages to the server.
  * 
+ * This class is thread-safe because the only shared memory (the messages queue) is wrapped in a thread-safe ConcurrentLinkedQueue object.
+ * This means that all reads and writes to the messages queue are atomic, which is why all the public methods to send messages (sendNickname, sendMake, etc.) are thread-safe.
  * @author hkannan
  * 
  */
@@ -31,7 +33,7 @@ public class ClientSocket implements Runnable {
     RequestHandler handler;
     private final Socket socket;
     private final ConcurrentLinkedQueue<String> messages;
-    
+
     public ClientSocket(Socket s) {
         this.socket = s;
         this.messages = new ConcurrentLinkedQueue<>();
@@ -57,11 +59,11 @@ public class ClientSocket implements Runnable {
                 while ((message = messages.poll()) != null) {
                     System.out.println("<CLIENT> Sending: " + message);
                     out.println(message);
-                    
+
                     if (message == "BYE") {
-                    	System.out.println("<CLIENT> Exiting");
-                    	out.flush();
-                    	return;
+                        System.out.println("<CLIENT> Exiting");
+                        out.flush();
+                        return;
                     }
                 }
                 String line = null;
