@@ -5,7 +5,7 @@ package domain;
  */
 /**
  * 
- * Thread-safe: This datatype is thread-safe because it is immutable. All fields are private and final, and the only mutator method is addPoint.
+ * Thread-safe: This datatype is thread-safe because it is immutable after creation. All fields are private and final, and the only mutator method is addPoint. addPoint() is only called on when the Stroke object is created. This happens either when the socket thread reads and parses a server message to create a Stroke object, or when the GUI thread creates a Stroke object from the user's click. Because of this, every Stroke object is immutable after creation. 
  */
 
 import java.awt.BasicStroke;
