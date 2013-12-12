@@ -39,6 +39,10 @@ import domain.Whiteboard;
  * 
  * Concurrency (Testing With Multiple Clients)
  * 7) Test that adding a new board in one client updates the other client with this change
+ * 
+ * Thread Safety Argument: This GUI is invoked on the Swing EDT. The field ClientSocket 
+ * is only used for writing messages which are added to a thread-safe queue that
+ * the ClientSocket is constantly polling.
  *
  */
 public class MenuGUI extends JFrame implements MenuDelegate {

@@ -6,7 +6,18 @@ import java.net.Socket;
 
 import server.Server;
 
+
+/**
+ * Utility for end-to-end test suite. Can be used to start a server
+ * and connect Sockets to it.
+ *
+ */
 public class TestUtil {
+    
+    /**
+     * Starts the server. You can call this in the "@BeforeClass" of
+     * a JUnit test suite to run tests against.
+     */
 	public static void startServer() {
 		new Thread(new Runnable() {
 			@Override
@@ -21,6 +32,13 @@ public class TestUtil {
 		}).start();
 	}
 	
+	/**
+	 * Create a socket connected to the server above for testing
+	 * purposes.
+	 * 
+	 * @return A socket connected to the server started above
+	 * @throws IOException
+	 */
 	public static Socket connect() throws IOException {
 		Socket ret = null;
 	    final int MAX_ATTEMPTS = 50;

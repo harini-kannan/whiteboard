@@ -37,6 +37,9 @@ import domain.*;
  * 11) Test that starting to draw on one board and getting an update before finishing keeps the clients boards consistent
  * 12) Test that drawing out of bounds updates on both boards
  * 
+ * Thread Safety Argument: This GUI is invoked on the Swing EDT. The field ClientSocket 
+ * is only used for writing messages which are added to a thread-safe queue that
+ * the ClientSocket is constantly polling.
  *
  */
 public class WhiteboardGUI extends JDialog implements DrawingDelegate {

@@ -11,6 +11,9 @@ import static org.junit.Assert.*;
 import org.junit.*;
 
 /**
+ * This is the full end-to-end test of the program, testing the menu
+ * functionality.
+ * 
  * @category no_didit
  */
 public class MenuTests {
@@ -21,6 +24,7 @@ public class MenuTests {
 	}
 	
     @Test
+    // Tests the creation of a new board on the server
     public void newBoardCreationTest() throws IOException {
         Socket socket = TestUtil.connect();
         
@@ -53,6 +57,7 @@ public class MenuTests {
     }
 
     @Test
+    // Tests joining a valid board on the server
     public void joinBoardTest() throws IOException {
         Socket socket = TestUtil.connect();
         
@@ -73,6 +78,7 @@ public class MenuTests {
     }
     
     @Test
+    // Tests joining an invalid board on the server
     public void joinBadBoardTest() throws IOException {
         Socket socket = TestUtil.connect();
         

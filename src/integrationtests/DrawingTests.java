@@ -12,13 +12,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * @category no_didit
- */
-/**
  * This is the full end-to-end test of the program, testing the drawing
  * capability of the whiteboard.
  * 
- * @author hkannan
+ * @category no_didit
  * 
  */
 public class DrawingTests {

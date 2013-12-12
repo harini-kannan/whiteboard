@@ -12,7 +12,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * T
+ * This is the full end-to-end test of the program, testing the login
+ * functionality.
  * 
  * @category no_didit
  */
@@ -24,6 +25,7 @@ public class LoginTests {
     }
 
     @Test
+    // Test sending a command wihtout logging in
     public void serverSendsSpecifyNickWhenNoNickTest() throws IOException {
         Socket socket = TestUtil.connect();
 
@@ -36,6 +38,7 @@ public class LoginTests {
     }
 
     @Test
+    // Test logging in with a valid nickname
     public void serverSendsNickOkayWhenNickValidTest() throws IOException {
         Socket socket = TestUtil.connect();
 
@@ -47,12 +50,9 @@ public class LoginTests {
         assertEquals("NICKOK", in.readLine());
     }
 
-    /**
-     * Ensures the same nickname is not supported.
-     * 
-     * @throws IOException
-     */
+
     @Test
+    // Test the same nickname is not supported.
     public void serverSendsNickInUseWhenNickIsTakenTest() throws IOException {
         Socket socket = TestUtil.connect();
         Socket otherSocket = TestUtil.connect();

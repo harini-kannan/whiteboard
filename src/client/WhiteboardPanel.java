@@ -22,6 +22,10 @@ import domain.Whiteboard;
 /**
  * WhiteboardPanel represents a drawing surface that allows the user to draw
  * on it freehand, with the mouse.
+ * 
+ * Thread Safety Argument: This GUI is invoked on the Swing EDT. The field ClientSocket 
+ * is only used for writing messages which are added to a thread-safe queue that
+ * the ClientSocket is constantly polling.
  */
 public class WhiteboardPanel extends JPanel {
     private static final long serialVersionUID = 1L;

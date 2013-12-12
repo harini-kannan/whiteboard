@@ -20,7 +20,9 @@ import client.networking.LoginRequestHandler;
  * 3) Test that typing in a nickname that already exists on the server prompts for a different nickname
  * 4) Test that typing in a unqiue nickname shows the MenuGUI
  * 
- * Thread Safety Argument: This
+ * Thread Safety Argument: This GUI is invoked on the Swing EDT. The field ClientSocket 
+ * is only used for writing messages which are added to a thread-safe queue that
+ * the ClientSocket is constantly polling.
  *
  */
 public class LoginGUI implements LoginDelegate {    
