@@ -36,6 +36,7 @@ import domain.*;
  * 10) Test that leaving and returning to another board doesn't draw to the previous boards server
  * 11) Test that starting to draw on one board and getting an update before finishing keeps the clients boards consistent
  * 12) Test that drawing out of bounds updates on both boards
+ * 
  *
  */
 public class WhiteboardGUI extends JDialog implements DrawingDelegate {

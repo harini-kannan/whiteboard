@@ -83,7 +83,7 @@ public class WhiteboardPanel extends JPanel {
         this.repaint();
     }
     
-    /*
+    /**
      * Make the drawing buffer and draw some starting content for it.
      */
     private void makeDrawingBuffer() {
@@ -94,7 +94,7 @@ public class WhiteboardPanel extends JPanel {
         this.repaint();
     }
     
-    /*
+    /**
      * Draw a line between two points (x1, y1) and (x2, y2), specified in
      * pixels relative to the upper-left corner of the drawing buffer.
      */
@@ -110,7 +110,7 @@ public class WhiteboardPanel extends JPanel {
         this.repaint();
     }
     
-    /*
+    /**
      * Add the mouse listener that supports the user's freehand drawing.
      */
     private void addDrawingController() {
@@ -119,7 +119,7 @@ public class WhiteboardPanel extends JPanel {
         addMouseMotionListener(controller);
     }
     
-    /*
+    /**
      * DrawingController handles the user's freehand drawing.
      */
     private class DrawingController implements MouseListener, MouseMotionListener {
@@ -128,7 +128,7 @@ public class WhiteboardPanel extends JPanel {
         private int lastX, lastY; 
         private ArrayList<Point> points;
 
-        /*
+        /**
          * When mouse button is pressed down, start drawing.
          */
         public void mousePressed(MouseEvent e) {
@@ -138,7 +138,7 @@ public class WhiteboardPanel extends JPanel {
             points.add(new Point(lastX, lastY));
         }
 
-        /*
+        /**
          * When mouse moves while a button is pressed down,
          * draw a line segment.
          */

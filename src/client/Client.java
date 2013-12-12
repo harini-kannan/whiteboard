@@ -10,6 +10,15 @@ import java.util.Queue;
 import javax.swing.SwingUtilities;
 import client.networking.ClientSocket;
 
+/**
+ * Main client program for Whiteboard GUI client interface.
+ * 
+ * Usage: Client.java [--debug] [--port PORT] [--host HOSTNAME]
+ * 
+ * Thread Safety Argument: This class spins the main thread with the ClientSocket.
+ * It invokes the GUI on the event handling thread to ensure thread safety. Additionally, 
+ * the only field socket is final.
+ */
 public class Client {
 	private final Socket socket;
 	
@@ -17,13 +26,16 @@ public class Client {
 		this.socket = debug ? new Socket() : new Socket(hostname, port);
 	}
 	
+	/**
+	 * Runs the set up client
+	 */
 	public void run() {
 		final ClientSocket clientSocket = new ClientSocket(socket);
         
         Thread socketThread = new Thread(clientSocket);
         socketThread.start();
         
-        // set up the UI (on the event-handling thread)
+        // Set up the UI (on the event-handling thread)
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
         		LoginGUI loginGUI = new LoginGUI(clientSocket);
@@ -32,11 +44,6 @@ public class Client {
         });
 	}
 	
-    /*
-     * Main client program for Whiteboard GUI.
-     * 
-     * Usage: Main.java [--debug] [--port PORT] [--host HOSTNAME]
-     */
     public static void main(String[] args) throws UnknownHostException, IOException {
         int port = 4444; // default port
         String hostname = "127.0.0.1"; //default hostname

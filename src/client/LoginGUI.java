@@ -19,6 +19,8 @@ import client.networking.LoginRequestHandler;
  * 2) Test that hitting the cancel button exits the program
  * 3) Test that typing in a nickname that already exists on the server prompts for a different nickname
  * 4) Test that typing in a unqiue nickname shows the MenuGUI
+ * 
+ * Thread Safety Argument: This
  *
  */
 public class LoginGUI implements LoginDelegate {    
